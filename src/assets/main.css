@@ -1,0 +1,11 @@
+.header {
+    background-color: rgb(31, 112, 182);
+    flex: 1;
+    width: 100%;
+}
+.headerText {
+    font-size: 32px;
+    margin-left: 50px;
+    color: #ffffff;
+
+}
