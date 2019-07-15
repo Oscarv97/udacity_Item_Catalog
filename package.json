@@ -1,0 +1,20 @@
+{
+  "name": "catalog",
+  "version": "1.0.0",
+  "description": "Place your catalog project in this directory.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oscarv97/udacity_Item_Catalog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oscarv97/udacity_Item_Catalog/issues"
+  },
+  "homepage": "https://github.com/Oscarv97/udacity_Item_Catalog#readme"
+}
