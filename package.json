@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --no-cache --config ./buildconfigs/jest.config.json",
     "start": "parcel serve src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html -d server/public/js/"
   },
   "repository": {
     "type": "git",
@@ -23,9 +23,11 @@
     "office-ui-fabric-core": "^10.1.0",
     "office-ui-fabric-react": "^7.10.0",
     "react": "^16.8.6",
-    "react-localization": "^1.0.14"
+    "react-localization": "^1.0.14",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "cssnano": "^4.1.10",
     "jest": "^24.8.0",
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",

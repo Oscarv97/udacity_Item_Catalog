@@ -14,7 +14,24 @@ def index():
 def catalog():
     return "Welcome to the catalog"
 
+@app.route("/hello")
+def hello():
+    return get_hello()
 
+def get_hello():
+    greetings_list = ["hi", "hello", "Hola", "Test"]
+    return random.choice(greetings_list)
 
 if __name__ == "__main__":
     app.run()
+
+@app.route("/api/car")
+def 
+
+@app.route("/api/*")
+def catchAllApi():
+    return { status: "Your lost"}
+
+@app.route("*")
+def catchAll():
+    return render_template("index.html")
