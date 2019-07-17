@@ -1,11 +1,44 @@
 .header {
-    background-color: rgb(31, 112, 182);
-    flex: 1;
-    width: 100%;
+    background: linear-gradient(to right, rgb(61, 61, 61), black);
+    height: 85px; 
 }
+
+.header > div.ms-Grid-col {
+    height: 85px;
+}
+
 .headerText {
     font-size: 32px;
-    margin-left: 50px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #ffffff;
+    padding: 20px;
+    margin: 0;
+}
 
+.header .loginButton {
+    height: 45px;
+    width: 90px;
+    background: linear-gradient(to right, aqua, blue);
+    border: none;
+    border-radius: 5px;
+    box-shadow: black;
+
+}
+
+.userProfileConatiner {
+    height: 100%;
+}
+
+.header .userProfileImage {
+   justify-content: center;
+    height: 45px;
+    width: 45px;
+
+    border-radius: 50%;
+    background-color: #ffffff;
+}
+.userProfileCorner {
+    flex: 1;
+    flex-direction: column-reverse;
+    justify-content: center;
 }

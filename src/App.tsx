@@ -4,6 +4,7 @@ import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
 
 export interface IStrings extends LocalizedStringsMethods {
     loginButton: string;
+    logoutButton: string;
     headerTitle: string;
 }
 
@@ -19,12 +20,9 @@ export default class App extends React.Component<{}, {}> {
         super(props);
         this.handleSignIn = this.handleSignIn.bind(this);
         this.strings = new LocalizedStrings({
-            it: {
-                loginButton: "Login",
-                headerTitle: "Punti",
-            },
             en: {
                 loginButton: "Login",
+                logoutButton: "Logout",
                 headerTitle: "Catalog App"
             }
         });
@@ -38,12 +36,11 @@ export default class App extends React.Component<{}, {}> {
 
     public render(): React.ReactElement<any> {
         return (
-            <div className="pageContainer">
-                <PageHeader strings={this.strings} signInClick={this.handleSignIn}></PageHeader>
+       
+            <div className="pageContainer ms-Grid" dir="ltr">
+                <PageHeader isUserLoggedin={false} strings={this.strings} onClickHandler={this.handleSignIn}></PageHeader>
                 <div className="pageContent">
-                    <ul>
-                        <li>1</li>
-                    </ul>
+                    
                 </div>
             </div>
         );
