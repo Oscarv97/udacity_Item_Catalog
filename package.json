@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/Oscarv97/udacity_Item_Catalog#readme",
   "dependencies": {
-    "react": "^16.8.6"
+    "react": "^16.8.6",
+    "react-localization": "^1.0.14"
   },
   "devDependencies": {
     "jest": "^24.8.0",
