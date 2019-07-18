@@ -1,5 +1,6 @@
 # application.py
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import random
 
 app = Flask(__name__, static_folder="../dist",
             template_folder="../src")

@@ -1,6 +1,10 @@
 import * as React from "react";
 import { PageHeader } from "~Components/header/Header";
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
+import { IDataBaseService } from "~services/IDataBaseService";
+import { DataBaseFactory } from "~services/DataBaseFactory";
+import { IAppState } from "~IAppState";
+import { IIventoryItem } from "~services/IInventoryItem";
 
 export interface IStrings extends LocalizedStringsMethods {
     loginButton: string;
@@ -9,9 +13,10 @@ export interface IStrings extends LocalizedStringsMethods {
 }
 
 
-export default class App extends React.Component<{}, {}> {
+export default class App extends React.Component<{}, IAppState> {
 
     public strings: IStrings;
+    private dataBaseService: IDataBaseService;
 
     /**
      *
@@ -19,6 +24,11 @@ export default class App extends React.Component<{}, {}> {
     constructor(props: any) {
         super(props);
         this.handleSignIn = this.handleSignIn.bind(this);
+        this.state = {
+            inventoryItems: [],
+            selectedCategory: '',
+            selectedItem: null
+            }
         this.strings = new LocalizedStrings({
             en: {
                 loginButton: "Login",
@@ -26,11 +36,41 @@ export default class App extends React.Component<{}, {}> {
                 headerTitle: "Showroom"
             }
         });
+        this.handleSignIn = this.handleSignIn.bind(this);
+        this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
+    }
+
+    public componentDidMount(): void {
+        this.dataBaseService.getAll().then((items: IIventoryItem[]) => {
+            this.setState((prevState : IAppState) => {
+                prevState.inventoryItems = items;
+                prevState.selectedCategory = 'all';
+                return prevState;
+            })
+        })
+        .catch((error: Error) => {
+            console.error(error);
+        })
     }
 
 
-    private handleSignIn(): void {
+    private handleSignIn(provider: string): void {
+        switch (provider) {
+            case 'google':
+                
+                break;
 
+            case 'faceBook':
+                
+                break;
+            
+            case 'standard':
+                
+                break;
+        
+            default:
+                break;
+        }
     }
 
 
