@@ -23,7 +23,7 @@ export default class App extends React.Component<{}, {}> {
             en: {
                 loginButton: "Login",
                 logoutButton: "Logout",
-                headerTitle: "Catalog App"
+                headerTitle: "Showroom"
             }
         });
     }
