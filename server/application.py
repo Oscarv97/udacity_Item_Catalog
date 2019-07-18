@@ -26,7 +26,8 @@ if __name__ == "__main__":
     app.run()
 
 @app.route("/api/car")
-def 
+def getCars():
+    return ""
 
 @app.route("/api/*")
 def catchAllApi():
