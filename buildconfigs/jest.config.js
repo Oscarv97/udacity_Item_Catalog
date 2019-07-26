@@ -1,5 +1,6 @@
 const path = require("path");
 module.exports = {
+
     rootDir: path.join(__dirname, "../"),
     testEnvironmentOptions: {
         runScripts: "dangerously", resources: "usable"
@@ -13,9 +14,9 @@ module.exports = {
             skipBabel: true
         }
     },
-    testMatch: {
-        "<rootDir>/tests/**/*.test.(ts|tsx)",
-    },
+    testMatch: [
+        "<rootDir>/tests/**/*.test.(ts|tsx)"
+],
     transform : {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
@@ -25,6 +26,7 @@ module.exports = {
     coveragePathIgnorePatterns: [
         "/node_modules",
         "/src/tests",
+        "/server",
         "/buildconfigs",
         "/package-lock.json",
         "/package.json"

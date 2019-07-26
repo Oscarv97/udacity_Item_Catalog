@@ -27,13 +27,16 @@ export default class App extends React.Component<{}, IAppState> {
         this.state = {
             inventoryItems: [],
             selectedCategory: '',
-            selectedItem: null
-            }
+            selectedItem: null,
+            currentUser: null,
+            isLoggedIn: this.state.currentUser ? true : false,
+        }
+
         this.strings = new LocalizedStrings({
             en: {
                 loginButton: "Login",
                 logoutButton: "Logout",
-                headerTitle: "Showroom"
+                headerTitle: "Games Catalog'"
             }
         });
         this.handleSignIn = this.handleSignIn.bind(this);
@@ -42,32 +45,31 @@ export default class App extends React.Component<{}, IAppState> {
 
     public componentDidMount(): void {
         this.dataBaseService.getAll().then((items: IIventoryItem[]) => {
-            this.setState((prevState : IAppState) => {
+            this.setState((prevState: IAppState) => {
                 prevState.inventoryItems = items;
                 prevState.selectedCategory = 'all';
                 return prevState;
             })
         })
-        .catch((error: Error) => {
-            console.error(error);
-        })
+            .catch((error: Error) => {
+                console.error(error);
+            })
     }
-
 
     private handleSignIn(provider: string): void {
         switch (provider) {
             case 'google':
-                
+
                 break;
 
             case 'faceBook':
-                
+
                 break;
-            
+
             case 'standard':
-                
+
                 break;
-        
+
             default:
                 break;
         }
@@ -76,11 +78,11 @@ export default class App extends React.Component<{}, IAppState> {
 
     public render(): React.ReactElement<any> {
         return (
-       
+
             <div className="pageContainer ms-Grid" dir="ltr">
                 <PageHeader isUserLoggedin={false} strings={this.strings} onClickHandler={this.handleSignIn}></PageHeader>
                 <div className="pageContent">
-                    
+
                 </div>
             </div>
         );

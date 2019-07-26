@@ -4,7 +4,7 @@ import { IHeaderProps } from "./IHeaderProps";
 
 export class PageHeader extends React.Component<IHeaderProps, {}> {
 
-    componentWillReceiveProps() {
+   public componentWillReceiveProps() {
 
     }
 
@@ -20,7 +20,7 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
                     <div className="ms-Grid-row" style={{height: "100%"}}>
                         <div className="ms-Grid-col ms-md6 userProfileCorner" style={{height: "100%"}}>
                             <button
-                                onClick={this.props.onClickHandler.bind(this, "google")}
+                                onClick={this.props.onClickHandler.bind(this)}
                                 className="loginButton">{this.props.isUserLoggedin ?
                                     this.props.strings.loginButton :
                                     this.props.strings.logoutButton

@@ -6,5 +6,4 @@ export interface IIventoryItem {
     category: string;
     user_id: number;
     user: string;
-
 }
