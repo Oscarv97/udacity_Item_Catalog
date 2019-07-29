@@ -29,7 +29,7 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
-    public deleteItem(itemId: string): Promise<any> {
+    public deleteItem(itemId: number): Promise<any> {
         return fetch('/api/', {
             method: "DELETE",
             mode: "cors"

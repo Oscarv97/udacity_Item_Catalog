@@ -90,7 +90,7 @@ export default class App extends React.Component<{}, IAppState> {
         let fakeMenuItems: IIventoryItem[] = [
             {category: "Test", id: 1, name:"Test Item", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
             {category: "Test", id: 1, name:"Test Item2", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
-            {category: "Test2", id: 1, name:"Test Item3", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+            {category: "Test2", id: 1, name:"Test Item3", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1, isSelected:true },
             {category: "Test2", id: 1, name:"Test Item4", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
         ]
         return (
@@ -103,6 +103,7 @@ export default class App extends React.Component<{}, IAppState> {
                     <div className="content Ms-Grid">
 
                         <Content
+                        dataServiceProvider={this.dataBaseService}
                             // menuItems={this.state.inventoryItems}
                             menuItems={fakeMenuItems}
                         />

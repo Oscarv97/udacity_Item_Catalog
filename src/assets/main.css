@@ -79,6 +79,13 @@
   font-weight: 400;
   margin-top: 20px;
 }
+.contentTable .selected {
+  background: #3f9bf1;
+}
+.contentTable .idColumn {
+  max-width: 20px;
+  width: 20px;
+}
 
 .content thead tr {
   border-bottom: 1px solid #767676;
