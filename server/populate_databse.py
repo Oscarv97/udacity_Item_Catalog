@@ -18,7 +18,7 @@ session.add(user1)
 session.commit()
 
 category1 = Category(
-    name='Japanse Performance',
+    name='Action',
     user=user1
 )
 
@@ -26,8 +26,8 @@ session.add(category1)
 session.commit()
 
 item1 = Item(
-    name='Japanse Performance',
-    description='JDM ',
+    name='BulletStorm',
+    description='Mindless Violence' ,
     category=category1,
     user=user1
 )

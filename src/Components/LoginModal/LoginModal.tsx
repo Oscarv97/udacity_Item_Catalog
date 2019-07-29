@@ -12,8 +12,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
 
         this.state = {
             loggedIn: this.props.loggedIn || false
-        }
-        
+        }      
     }
 
     public componentWillReceiveProps(nextProps: ILoginModalProps): void {
@@ -21,7 +20,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
     }
 
     public render(): React.ReactElement<ILoginModalProps> {
-        return this.state.loggedIn ?(
+        return !this.state.loggedIn ?(
             <div className="loginModal">
                 <ol>
                     <li className="" onClick={this.props.handleLogin.bind(this)}>google</li>

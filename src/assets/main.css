@@ -1,4 +1,31 @@
-.header {
+
+.App {
+    min-height: 100vh; 
+  }
+  .App {
+    display: flex;
+    flex-direction: column;
+  }
+  .App .body {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .body .sidebar {
+    order: -1;
+    max-width: 12em;
+    flex-grow: 0;    
+    flex-shrink: 0;  
+    flex-basis: 12em;
+    background-color: #5c5c5c;
+  }
+  
+  .App .header,
+  .App .footer {
+    height: 4em;
+  }
+  
+  .header {
     background: linear-gradient(to right, rgb(61, 61, 61), black);
     height: 85px; 
 }
@@ -42,3 +69,57 @@
     flex-direction: column-reverse;
     justify-content: center;
 }
+
+.contentTable {
+  width: 80%;
+  margin-left: 4rem;
+  border-collapse: collapse;
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.content thead tr {
+  border-bottom: 1px solid #767676;
+}
+
+.content thead th {
+  font-weight: 600;
+  color: #666;
+  text-align: left;
+}
+
+.conent tbody tr {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.content th, td {
+  padding: 10px 8px;
+}
+
+.number {
+  text-align: right;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(78, 78, 78);
+  opacity: 60%;
+  color: white;
+  text-align: center;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #3f9bf1;  
+}
+
+.footer a:visited {
+  text-decoration: none;
+  
+}
+

@@ -5,6 +5,10 @@ import { IDataBaseService } from "~services/IDataBaseService";
 import { DataBaseFactory } from "~services/DataBaseFactory";
 import { IAppState } from "~IAppState";
 import { IIventoryItem } from "~services/IInventoryItem";
+import { IUser } from "~services/IUser";
+import Footer from "~Components/footer/footer";
+import Content from "~Components/Content/Content";
+import SideBar from "~Components/SideBar/SideBar";
 
 export interface IStrings extends LocalizedStringsMethods {
     loginButton: string;
@@ -24,19 +28,25 @@ export default class App extends React.Component<{}, IAppState> {
     constructor(props: any) {
         super(props);
         this.handleSignIn = this.handleSignIn.bind(this);
+        let fakeUser: IUser = {
+            email: "oscarvial55@gmail.com",
+            id: 1,
+            name: "Oscar",
+
+        }
         this.state = {
             inventoryItems: [],
             selectedCategory: '',
             selectedItem: null,
-            currentUser: null,
-            isLoggedIn: this.state.currentUser ? true : false,
+            currentUser: fakeUser,
+            isLoggedIn: false,
         }
 
         this.strings = new LocalizedStrings({
             en: {
                 loginButton: "Login",
                 logoutButton: "Logout",
-                headerTitle: "Games Catalog'"
+                headerTitle: "Games Catalog"
             }
         });
         this.handleSignIn = this.handleSignIn.bind(this);
@@ -53,7 +63,7 @@ export default class App extends React.Component<{}, IAppState> {
         })
             .catch((error: Error) => {
                 console.error(error);
-            })
+            });
     }
 
     private handleSignIn(provider: string): void {
@@ -77,14 +87,36 @@ export default class App extends React.Component<{}, IAppState> {
 
 
     public render(): React.ReactElement<any> {
+        let fakeMenuItems: IIventoryItem[] = [
+            {category: "Test", id: 1, name:"Test Item", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+            {category: "Test", id: 1, name:"Test Item2", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+            {category: "Test2", id: 1, name:"Test Item3", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+            {category: "Test2", id: 1, name:"Test Item4", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+        ]
         return (
-
             <div className="pageContainer ms-Grid" dir="ltr">
+                <div className="header">
                 <PageHeader isUserLoggedin={false} strings={this.strings} onClickHandler={this.handleSignIn}></PageHeader>
-                <div className="pageContent">
+                </div>
 
+                <div className="body">
+                    <div className="content Ms-Grid">
+
+                        <Content
+                            // menuItems={this.state.inventoryItems}
+                            menuItems={fakeMenuItems}
+                        />
+                    </div>
+                    <div className="sidebar">
+                        <SideBar links={[]} />
+                    </div>
+                </div>
+
+                <div className="footer">
+                    <Footer />
                 </div>
             </div>
+
         );
     }
 }

@@ -15,25 +15,18 @@ def index():
 def catalog():
     return "Welcome to the catalog"
 
-@app.route("/hello")
-def hello():
-    return get_hello()
-
-def get_hello():
-    greetings_list = ["hi", "hello", "Hola", "Test"]
-    return random.choice(greetings_list)
-
-if __name__ == "__main__":
-    app.run()
-
-@app.route("/api/car")
-def getCars():
+@app.route("/api/games/<int:category_id>/")
+def getGames():
     return ""
 
 @app.route("/api/*")
 def catchAllApi():
+    # try do 304 redirect to relivent content
     return { status: "Your lost"}
 
 @app.route("*")
 def catchAll():
     return render_template("index.html")
+
+if __name__ == "__main__":
+    app.run()

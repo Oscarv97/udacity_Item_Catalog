@@ -21,7 +21,7 @@
   "homepage": "https://github.com/Oscarv97/udacity_Item_Catalog#readme",
   "dependencies": {
     "office-ui-fabric-core": "^10.1.0",
-    "office-ui-fabric-react": "^7.10.0",
+    "office-ui-fabric-react": "^7.17.0",
     "react": "^16.8.6",
     "react-localization": "^1.0.14",
     "whatwg-fetch": "^3.0.0"
