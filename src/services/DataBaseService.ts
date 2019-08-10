@@ -17,7 +17,7 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public getItem(itemId: string, catagoryId: string): Promise<any> {
-        return fetch('/api/', {
+        return fetch('http://127.0.0.1:5000/api/', {
             method: "GET"
         }).then((response: Response) => {
             if (!response.ok) {
@@ -30,8 +30,8 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public deleteItem(itemId: number): Promise<any> {
-        return fetch('/api/', {
-            method: "DELETE",
+        return fetch('http://127.0.0.1:5000/api/delete', {
+            method: "POST",
             mode: "cors"
         }).then((result: any) => {
 
@@ -78,7 +78,9 @@ export class DataBaseService implements IDataBaseService {
     private handleResponseError(response: Response) {
         throw new Error("HTTP error, status = " + response.status);
     }
+
     private handleError(error: Error) {
         console.log(error.message);
     }
+    
 }

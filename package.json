@@ -23,8 +23,7 @@
     "office-ui-fabric-core": "^10.1.0",
     "office-ui-fabric-react": "^7.17.0",
     "react": "^16.8.6",
-    "react-localization": "^1.0.14",
-    "whatwg-fetch": "^3.0.0"
+    "react-localization": "^1.0.14"
   },
   "devDependencies": {
     "@types/whatwg-fetch": "0.0.33",
@@ -33,6 +32,7 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
+    "whatwg-fetch": "^3.0.0",
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.5"
   }
