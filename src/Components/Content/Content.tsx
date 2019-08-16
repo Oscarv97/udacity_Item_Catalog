@@ -76,9 +76,9 @@ export default class Content extends React.Component<IContentProps, IContentStat
                     <form  action="javascript:void(0);" onSubmit={this.saveEdit}>
             
                     <input type="text" />
-                        <input type="text" value={this.state.edtingItem.name || ""} />
-                        <input type="text" value={this.state.edtingItem.description || ""} />
-                        <input type="text" value={this.state.edtingItem.image || ""} />
+                        <input onChange={this.handleEditEntry.bind(this)} type="text" value={this.state.edtingItem.name || ""} />
+                        <input onChange={this.handleEditEntry.bind(this)}  type="text" value={this.state.edtingItem.description || ""} />
+                        <input onChange={this.handleEditEntry.bind(this)} type="text" value={this.state.edtingItem.image || ""} />
                         
                     </form> :
                     null
@@ -112,6 +112,12 @@ export default class Content extends React.Component<IContentProps, IContentStat
             prevState.isEdit = true;
             return prevState;
         })
+    }
+
+    private handleEditEntry(target: any): void {
+        this.setState((prevState: any) => {
+            
+        });
     }
 
     /**

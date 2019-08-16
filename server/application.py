@@ -1,5 +1,5 @@
 # application.py
-from flask import Flask, render_template, jsonify, status
+from flask import Flask, render_template, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, CatalogItem, Category, User
@@ -37,7 +37,7 @@ def newGame():
 
 @app.route("/api/*")
 def catchAllApi():
-    # try do 304 redirect to relivent content
+    # try do 304 redirect to other  content
     return {  "Your lost"}
 
 @app.route("/*")
