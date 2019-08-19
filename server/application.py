@@ -1,8 +1,7 @@
-# application.py
 from flask import Flask, render_template, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, CatalogItem, Category, User
+from database_setup import Base, CategoryItem, Category, User
 from flask import session as login_session
 
 app = Flask(__name__, static_folder="../dist",
@@ -11,6 +10,14 @@ app = Flask(__name__, static_folder="../dist",
 
 engine = create_engine('sqlite:///itemcatalog.db')
 Base.metadata.bind = engine
+
+
+import firebase_admin
+from firebase_admin import credentials
+
+cred = credentials.Certificate("./oscarudacityitemcatalog-firebase-adminsdk-mixjn-dde0d6cc72.json")
+firebase_admin.initialize_app(cred)
+
 
 @app.route("/")
 def index():
@@ -22,7 +29,7 @@ def index():
 def newGame():
     categories = session.query(Category).all()
     if request.method == 'POST':
-        addNewItem = CatalogItem(
+        addNewItem = CategoryItem(
             name=request.form['name'],
             description=request.form['description'],
             price=request.form['price'],

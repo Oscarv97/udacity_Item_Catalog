@@ -6,12 +6,12 @@
     display: flex;
     flex-direction: column;
   }
-  .App .body {
+  .App .home-wrapper {
     display: flex;
     flex-direction: row;
   }
   
-  .body .sidebar {
+  .home-wrapper .sidebar {
     order: -1;
     max-width: 12em;
     flex-grow: 0;    

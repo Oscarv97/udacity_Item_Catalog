@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IHeaderProps } from "./IHeaderProps";
+import { Link } from "react-router-dom";
 
 
 export class PageHeader extends React.Component<IHeaderProps, {}> {
@@ -7,7 +8,6 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
    public componentWillReceiveProps() {
 
     }
-
 
     public render(): React.ReactElement<IHeaderProps> {
         return (
@@ -21,10 +21,15 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
                         <div className="ms-Grid-col ms-md6 userProfileCorner" style={{height: "100%"}}>
                             <button
                                 onClick={this.props.onClickHandler.bind(this)}
-                                className="loginButton">{this.props.isUserLoggedin ?
+                                className="loginButton">
+                                <Link to='/home'>
+
+                                {this.props.isUserLoggedin ?
                                     this.props.strings.loginButton :
                                     this.props.strings.logoutButton
-                                    }</button>
+                                }
+                                </Link>
+                            </button>
                         </div>
                         <div className="userProfileConatiner ms-Grid-col ms-md6" style={{height: "100%"}}>
                             <span aria-hidden={true} className="userProfileImage ms-Icon ms-Icon--ReminderPerson" style={{backgroundImage: `url:('')`}}>
