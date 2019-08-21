@@ -24,15 +24,6 @@ export default class App extends React.Component<{}, IAppState> {
     public strings: IStrings;
     private dataBaseService: IDataBaseService;
 
-    private config = {
-        apiKey: "AIzaSyDbd5MOubzIhx29g78IhZp-hWQpFXKeo_s",
-    authDomain: "oscarudacityitemcatalog.firebaseapp.com",
-    databaseURL: "https://oscarudacityitemcatalog.firebaseio.com",
-    projectId: "oscarudacityitemcatalog",
-    storageBucket: "oscarudacityitemcatalog.appspot.com",
-    messagingSenderId: "871478275477",
-    appId: "1:871478275477:web:2730c6ae1b5b6b5c"
-    };
 
     constructor(props: any) {
         super(props);
@@ -91,6 +82,7 @@ export default class App extends React.Component<{}, IAppState> {
                         <PageHeader isUserLoggedIn={false} strings={this.strings}></PageHeader>
                     </div>
 
+                    <Switch></Switch>
                         <Route exact path="/" component={Home} />
 
                         <Route path="/home" component={Home} />
