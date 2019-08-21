@@ -2,6 +2,7 @@ import * as React from "react";
 import { IIventoryItem } from '~services/IInventoryItem';
 import { IContentProps } from './IContentProps';
 import { IContentState } from './IContentState';
+import { Link } from "react-router-dom";
 
 export default class Content extends React.Component<IContentProps, IContentState> {
     private editForm: any;
@@ -35,7 +36,11 @@ export default class Content extends React.Component<IContentProps, IContentStat
         return (
             <div className="container">
                 <div className={"actionsBar"}>
-                    <button>Create new Item</button>
+                    <button><Link to="createItem/">
+                    Create new Item
+                    
+                    </Link>
+                    </button>
                     <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
                 </div>
 
