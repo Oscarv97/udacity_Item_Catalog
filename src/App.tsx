@@ -1,15 +1,17 @@
 import * as React from "react";
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
-import { IDataBaseService } from "~services/IDataBaseService";
-import { DataBaseFactory } from "~services/DataBaseFactory";
-import { IAppState } from "~IAppState";
-import { IIventoryItem } from "~services/IInventoryItem";
-import { IUser } from "~services/IUser";
-import Footer from "~Components/footer/footer";
-import { HashRouter, Route } from "react-router-dom";
-import * as firebase from "firebase/app";
+import { IDataBaseService } from "./services/IDataBaseService";
+import { DataBaseFactory } from "./services/DataBaseFactory";
+import { IAppState } from "./IAppState";
+import { IIventoryItem } from "./services/IInventoryItem";
+import { IUser } from "./services/IUser";
+import Footer from "./Components/footer/footer";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import Home from "./Components/Pages/Home";
-import { LoginPage } from "~Components/Pages/Login";
+import { LoginPage } from "./Components/Pages/Login";
+import { PageHeader } from "./Components/header/Header";
+import NoMatch from "./Components/Pages/NoMatch";
+import * as firebase from "firebase/app";
 
 export interface IStrings extends LocalizedStringsMethods {
     loginButton: string;
@@ -22,12 +24,19 @@ export default class App extends React.Component<{}, IAppState> {
     public strings: IStrings;
     private dataBaseService: IDataBaseService;
 
-    /**
-     *
-     */
+    private config = {
+        apiKey: "AIzaSyDbd5MOubzIhx29g78IhZp-hWQpFXKeo_s",
+    authDomain: "oscarudacityitemcatalog.firebaseapp.com",
+    databaseURL: "https://oscarudacityitemcatalog.firebaseio.com",
+    projectId: "oscarudacityitemcatalog",
+    storageBucket: "oscarudacityitemcatalog.appspot.com",
+    messagingSenderId: "871478275477",
+    appId: "1:871478275477:web:2730c6ae1b5b6b5c"
+    };
+
     constructor(props: any) {
         super(props);
-       
+
         let fakeUser: IUser = {
             email: "oscarvial55@gmail.com",
             id: 1,
@@ -49,16 +58,8 @@ export default class App extends React.Component<{}, IAppState> {
                 headerTitle: "Games Catalog"
             }
         });
+        firebase.initializeApp(this.config);
 
-        const config = {
-            apiKey: 
-            'AIzaSyDbd5MOubzIhx29g78IhZp-hWQpFXKeo_s',
-            authDomain: 'myproject-1234.firebaseapp.com',
-            // ...
-        };
-        firebase.initializeApp(config);
-
-       
         this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
     }
 
@@ -72,29 +73,40 @@ export default class App extends React.Component<{}, IAppState> {
         })
             .catch((error: Error) => {
                 console.error(error);
-            });
+        });
+    }
+
+    private handleSignIn(provider: string): void {
+      
     }
 
 
-
     public render(): React.ReactElement<any> {
-
         return (
-            <div className="catalog-wrapper ms-Grid" dir="ltr">
-             
 
-                <HashRouter>
-                    <div>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/home" component={Home}/>
-                    <Route path="/login" component={LoginPage}/>
+            <HashRouter>
+                <div className="catalog-wrapper ms-Grid" dir="ltr">
+
+                    <div className="header">
+                        <PageHeader isUserLoggedIn={false} strings={this.strings}></PageHeader>
                     </div>
-                </HashRouter>
 
-                <div className="footer">
-                    <Footer />
+                        <Route exact path="/" component={Home} />
+
+                        <Route path="/home" component={Home} />
+
+                        <Route path="/login" component={LoginPage} />
+
+                        <Route component={NoMatch} />
+                  
+
+
+                    <div className="footer">
+                        <Footer />
+                    </div>
+
                 </div>
-            </div>
+            </HashRouter>
 
         );
     }

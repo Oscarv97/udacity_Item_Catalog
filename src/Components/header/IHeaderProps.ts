@@ -1,7 +1,7 @@
-import { IStrings } from "~App";
+import { IStrings } from "../../App";
 
 export interface IHeaderProps {
-    onClickHandler(signInService?: string): any;
     strings: IStrings;
-    isUserLoggedin: boolean;
+    isUserLoggedIn: boolean;
+   
 }

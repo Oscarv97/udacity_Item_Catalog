@@ -1,35 +1,51 @@
-from flask import Flask, render_template, jsonify
-from sqlalchemy import create_engine, asc
-from sqlalchemy.orm import sessionmaker
-from database_setup import Base, CategoryItem, Category, User
+from flask import Flask, send_from_directory, url_for, request, redirect, jsonify, make_response
 from flask import session as login_session
+from sqlalchemy import asc, create_engine
+from sqlalchemy.orm import sessionmaker
+import os
+from database_setup import Base, Category, CategoryItem, User
+import firebase_admin
+from firebase_admin import credentials
 
-app = Flask(__name__, static_folder="../dist",
-            template_folder="../src")
+app = Flask(__name__, static_folder="./public/js/")
 
 
 engine = create_engine('sqlite:///itemcatalog.db')
 Base.metadata.bind = engine
 
+# Create database session
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
-import firebase_admin
-from firebase_admin import credentials
-
-cred = credentials.Certificate("./oscarudacityitemcatalog-firebase-adminsdk-mixjn-dde0d6cc72.json")
+cred = credentials.Certificate(
+    "../../../Documents/udacityKey/oscarudacityitemcatalog-firebase-adminsdk-mixjn-dde0d6cc72.json")
 firebase_admin.initialize_app(cred)
 
+fakeData = """[{"category":"Test","id":1,"name":"Test Item","category_id":1,"description":"Test Description ","user":"Oscar","user_id":1},
+            {"category":"Test","id":1,"name":"Test Item2","category_id":1,"description":"Test Description ","user":"Oscar","user_id":1},
+            {"category":"Test2","id":1,"name":"Test Item3","category_id":1,"description":"Test Description ","user":"Oscar","user_id":1,
+            "isSelected":true},{"category":"Test2","id":1,"name":"Test Item4","category_id":1,"description":"Test Description ","user":"Oscar","user_id":1}]"""
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
+@app.route("/api/all/")
+def getAll():
+    return jsonify(fakeData)
 
 @app.route("/api/games/new", methods=['POST'])
-@login_required 
 def newGame():
-    categories = session.query(Category).all()
+    if 'token' not in session:
+        return status.HTTP_401_UN_AUTHORIZED
+
+    categories=session.query(Category).all()
     if request.method == 'POST':
-        addNewItem = CategoryItem(
+        addNewItem=CategoryItem(
             name=request.form['name'],
             description=request.form['description'],
             price=request.form['price'],
@@ -37,19 +53,28 @@ def newGame():
             user_id=login_session['user_id'])
         session.add(addNewItem)
         session.commit()
-       
+
         return status.HTTP_201_CREATED
     else:
         return status.HTTP_400_BAD_REQUEST
 
+
 @app.route("/api/*")
 def catchAllApi():
     # try do 304 redirect to other  content
-    return {  "Your lost"}
+    return {"Your lost"}
+
 
 @app.route("/*")
 def catchAll():
     return render_template("index.html")
 
+
+def login_required(id_token):
+    # id_token comes from the client app (shown above)
+    decoded_token=auth.verify_id_token(id_token)
+    uid=decoded_token['uid']
+
+
 if __name__ == "__main__":
-    app.run()
+    app.run(use_reloader=True, port=5000, threaded=True)

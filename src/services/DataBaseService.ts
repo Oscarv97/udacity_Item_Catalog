@@ -1,10 +1,9 @@
 import { IDataBaseService } from "./IDataBaseService";
-import { fetch } from "whatwg-fetch";
-
+// import {fetch }from "whatwg-fetch";
 export class DataBaseService implements IDataBaseService {
 
     public getAll(): Promise<any> {
-        return fetch('/api/', {
+        return fetch( window.location.hostname +'/api/all/', {
             method: "GET"
         }).then((response: Response) => {
             if (!response.ok) {

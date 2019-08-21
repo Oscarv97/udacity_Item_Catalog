@@ -1,5 +1,4 @@
 import * as React from "react";
-// import { Link } from "office-ui-fabric-react";
 
 export default class Footer extends React.Component<any, any> {
 

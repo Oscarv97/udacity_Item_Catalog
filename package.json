@@ -4,8 +4,8 @@
   "description": "Place your catalog project in this directory.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --no-cache --config ./buildconfigs/jest.config.json",
-    "start": "parcel serve src/index.html",
+    "test": "jest --no-cache --config ./buildConfig/jest.config.js",
+    "start": "parcel serve src/index.html --port 8000",
     "build": "parcel build src/index.html -d server/public/js/"
   },
   "repository": {
@@ -29,13 +29,15 @@
     "react-localization": "^1.0.14"
   },
   "devDependencies": {
-    "@types/whatwg-fetch": "0.0.33",
+    "@types/jest": "^24.0.18",
     "@types/react-router-dom": "4.3.4",
+    "@types/whatwg-fetch": "0.0.33",
     "cssnano": "^4.1.10",
     "jest": "^24.8.0",
+    "jest-junit": "^7.0.0",
     "react-dom": "^16.8.6",
-    "whatwg-fetch": "^3.0.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "whatwg-fetch": "^3.0.0"
   }
 }
