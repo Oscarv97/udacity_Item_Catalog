@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IIventoryItem } from '~services/IInventoryItem';
+import { IInventoryItem } from '~services/IInventoryItem';
 import { IContentProps } from './IContentProps';
 import { IContentState } from './IContentState';
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ export default class Content extends React.Component<IContentProps, IContentStat
     constructor(props: IContentProps) {
         super(props)
         this.state = {
-            items: this.props.menuItems,
+            items: [],
             canSelect: true,
             selection: null,
             isEdit: false,
@@ -25,6 +25,20 @@ export default class Content extends React.Component<IContentProps, IContentStat
         this.editForm = React.createRef();
     }
 
+    public componentDidMount(): void {
+        this.props.dataServiceProvider.getAll().then((result) => {
+            if(result){
+                this.setState((prevState: IContentState) => {
+                    prevState.items = result;
+                    return prevState;
+                })
+            }
+            console.log(result);
+        }).catch((error: Error) => {
+            console.error("Failed to get inventory items from DB.", error);
+        });
+    }
+
     public render(): React.ReactElement<IContentProps> {
         let columns: string[] = [
             "ID",
@@ -36,11 +50,7 @@ export default class Content extends React.Component<IContentProps, IContentStat
         return (
             <div className="container">
                 <div className={"actionsBar"}>
-                    <button><Link to="createItem/">
-                    Create new Item
-                    
-                    </Link>
-                    </button>
+                    <button><Link to="createItem/"> Create new Item </Link></button>
                     <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
                 </div>
 
@@ -55,7 +65,7 @@ export default class Content extends React.Component<IContentProps, IContentStat
                             })}
 
                         </tr>
-                        {this.state.items.map((menuItem: IIventoryItem, index) => {
+                        {this.state.items.map((menuItem: IInventoryItem, index) => {
                             return (
 
                                 <tr className={menuItem.isSelected ? "selected" : ""} onClick={this.handleSelect.bind(this, index)} key={`tableRow${index}`}>

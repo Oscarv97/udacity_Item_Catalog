@@ -1,10 +1,10 @@
 import * as React from "react";
 import { INewItemFormProps } from "./INewItemFormProps";
-import { IIventoryItem } from "~services/IInventoryItem";
+import { IInventoryItem } from "~services/IInventoryItem";
 
 export default class newItemForm extends React.Component<any, INewItemFormProps> {
 
-    private newItem: IIventoryItem;
+    private newItem: IInventoryItem;
     constructor(props: INewItemFormProps) {
         super(props);
         this.newItem = {category: "", id:1, category_id: 1, name:"", user: "", description: "", user_id:1};

@@ -1,10 +1,14 @@
 import { IDataBaseService } from "./IDataBaseService";
+import { IInventoryItem } from "./IInventoryItem";
 // import {fetch }from "whatwg-fetch";
 export class DataBaseService implements IDataBaseService {
 
-    public getAll(): Promise<any> {
-        return fetch( window.location.hostname +'/api/all/', {
-            method: "GET"
+    public getAll(): Promise<IInventoryItem[]> {
+
+        return fetch('api/all/',
+        {
+            method: "GET",
+            mode: "no-cors"
         }).then((response: Response) => {
             if (!response.ok) {
                 this.handleResponseError(response);
@@ -16,8 +20,9 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public getItem(itemId: string, catagoryId: string): Promise<any> {
-        return fetch('http://127.0.0.1:5000/api/', {
-            method: "GET"
+        return fetch('/api/catalog/',  {
+            method: "GET",
+        
         }).then((response: Response) => {
             if (!response.ok) {
                 this.handleResponseError(response);
@@ -29,7 +34,7 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public deleteItem(itemId: number): Promise<any> {
-        return fetch('http://127.0.0.1:5000/api/delete', {
+        return fetch('http://localhost:5000/api/delete', {
             method: "POST",
             mode: "cors"
         }).then((result: any) => {
@@ -81,5 +86,5 @@ export class DataBaseService implements IDataBaseService {
     private handleError(error: Error) {
         console.log(error.message);
     }
-    
+
 }

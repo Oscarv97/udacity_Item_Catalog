@@ -1,4 +1,4 @@
-export interface IIventoryItem {
+export interface IInventoryItem {
     id: number;
     name: string;
     description: string;

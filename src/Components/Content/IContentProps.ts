@@ -1,7 +1,7 @@
-import { IIventoryItem } from "~services/IInventoryItem";
+import { IInventoryItem } from "~services/IInventoryItem";
 import { IDataBaseService } from "~services/IDataBaseService";
 
 export interface IContentProps {
-    menuItems: IIventoryItem[];
+    menuItems: IInventoryItem[];
     dataServiceProvider: IDataBaseService;
 }

@@ -3,6 +3,7 @@ from flask import session as login_session
 from sqlalchemy import asc, create_engine
 from sqlalchemy.orm import sessionmaker
 import os
+import json
 from database_setup import Base, Category, CategoryItem, User
 import firebase_admin
 from firebase_admin import credentials
@@ -36,7 +37,7 @@ def serve(path):
 
 @app.route("/api/all/")
 def getAll():
-    return jsonify(fakeData)
+    return jsonify(json.loads(fakeData))
 
 @app.route("/api/games/new", methods=['POST'])
 def newGame():
@@ -58,6 +59,13 @@ def newGame():
     else:
         return status.HTTP_400_BAD_REQUEST
 
+# Display a Specific Item
+@app.route('/api/catalog/<path:category_name>/<path:item_name>/')
+def showItem(category_name, item_name):
+    category = session.query(Category).filter_by(name=category_name).one()
+    item = session.query(Item).filter_by(name=item_name,\
+                                        category=category).one()
+    return jsonify(item=[item.serialize])
 
 @app.route("/api/*")
 def catchAllApi():
@@ -67,7 +75,7 @@ def catchAllApi():
 
 @app.route("/*")
 def catchAll():
-    return render_template("index.html")
+    return url_for("/#/404/")
 
 
 def login_required(id_token):

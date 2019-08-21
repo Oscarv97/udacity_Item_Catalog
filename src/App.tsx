@@ -3,7 +3,7 @@ import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
 import { IDataBaseService } from "./services/IDataBaseService";
 import { DataBaseFactory } from "./services/DataBaseFactory";
 import { IAppState } from "./IAppState";
-import { IIventoryItem } from "./services/IInventoryItem";
+import { IInventoryItem } from "./services/IInventoryItem";
 import { IUser } from "./services/IUser";
 import Footer from "./Components/footer/footer";
 import { HashRouter, Route, Switch } from "react-router-dom";
@@ -23,7 +23,6 @@ export interface IStrings extends LocalizedStringsMethods {
 
 export default class App extends React.Component<{}, IAppState> {
     public strings: IStrings;
-    private dataBaseService: IDataBaseService;
 
     //shouldnt be here 
     private config = {
@@ -62,20 +61,11 @@ export default class App extends React.Component<{}, IAppState> {
         });
         firebase.initializeApp(this.config);
 
-        this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
+    
     }
 
     public componentDidMount(): void {
-        this.dataBaseService.getAll().then((items: IIventoryItem[]) => {
-            this.setState((prevState: IAppState) => {
-                prevState.inventoryItems = items;
-                prevState.selectedCategory = 'all';
-                return prevState;
-            })
-        })
-            .catch((error: Error) => {
-                console.error(error);
-        });
+
     }
 
     private handleSignIn(provider: string): void {

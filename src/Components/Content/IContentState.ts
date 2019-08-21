@@ -1,10 +1,10 @@
-import { IIventoryItem } from "~services/IInventoryItem";
+import { IInventoryItem } from "~services/IInventoryItem";
 
 export interface IContentState {
-    items: IIventoryItem[];
-    selection: IIventoryItem;
+    items: IInventoryItem[];
+    selection: IInventoryItem;
     canSelect: boolean;
     isEdit: boolean;
     canSave: boolean;
-    edtingItem: IIventoryItem;
+    edtingItem: IInventoryItem;
 }
