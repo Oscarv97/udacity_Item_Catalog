@@ -33,19 +33,16 @@ export default class newItemForm extends React.Component<any, INewItemFormProps>
             <div className="mainSection" data-automation={"editNavCategoryContainer"}>
                 <form>
                     <div className="form-group">
-                        <label >Email address</label>
-                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                        <label>Item Name</label>
+                        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Item Name"></input>
 
                     </div>
                     <div className="form-group">
-                        <label>Name</label>
-                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+                        <label>Category</label>
+                        <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Category Name"></input>
                     </div>
                     <div className="form-group form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1">
-
-                        </input>
-                        <label className="form-check-label" >Check me out</label>
+                       
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>

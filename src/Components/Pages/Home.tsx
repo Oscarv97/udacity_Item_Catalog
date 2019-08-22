@@ -5,7 +5,7 @@ import { IInventoryItem } from "../../services/IInventoryItem";
 import { IHomeProps } from "./IHomeProps";
 import { DataBaseFactory } from "~services/DataBaseFactory";
 import { IDataBaseService } from "~services/IDataBaseService";
-import Grid from "~Components/Content/Grid";
+import Grid from "../../Components/Content/Grid";
 
 
 export default class Home extends React.Component<IHomeProps, any> {
@@ -30,8 +30,7 @@ export default class Home extends React.Component<IHomeProps, any> {
                     <Grid
                         dataServiceProvider={this.dataBaseService}
                         // menuItems={{}}
-                        menuItems={fakeMenuItems}
-                    />
+                        menuItems={fakeMenuItems}/>
                 {/* </div> */}
             </div>
         );
