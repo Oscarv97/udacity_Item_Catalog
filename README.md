@@ -1,5 +1,4 @@
-# Project Title
-
+# Udacity Project 4 Item Catalog
 One Paragraph of project description goes here
 
 ## Getting Started
