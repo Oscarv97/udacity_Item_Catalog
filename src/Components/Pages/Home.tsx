@@ -5,6 +5,7 @@ import { IInventoryItem } from "../../services/IInventoryItem";
 import { IHomeProps } from "./IHomeProps";
 import { DataBaseFactory } from "~services/DataBaseFactory";
 import { IDataBaseService } from "~services/IDataBaseService";
+import Grid from "~Components/Content/Grid";
 
 
 export default class Home extends React.Component<IHomeProps, any> {
@@ -23,14 +24,15 @@ export default class Home extends React.Component<IHomeProps, any> {
             // { category: "Test2", id: 1, name: "Test Item4", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
         ]
         return (
-            <div className="home-wrapper">
-                <div className="content Ms-Grid">
-                    <Content
+            <div className="">
+            {/* <div className="home-wrapper"> */}
+                {/* <div className="content Ms-Grid"> */}
+                    <Grid
                         dataServiceProvider={this.dataBaseService}
                         // menuItems={{}}
                         menuItems={fakeMenuItems}
                     />
-                </div>
+                {/* </div> */}
             </div>
         );
     }

@@ -1,3 +1,15 @@
+/* Override Bootstrap Styling */
+
+.btn-primary {
+  background-color: #025fce !important;
+  color: #ffffff;
+}
+
+button:focus,
+button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 .gamesCatalog {
   margin: 0;
@@ -78,6 +90,12 @@
     flex: 1;
     flex-direction: column-reverse;
     justify-content: center;
+}
+
+.gridHeader {
+  background-color: #cecece;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
 }
 
 .contentTable {

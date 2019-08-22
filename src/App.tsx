@@ -84,7 +84,7 @@ export default class App extends React.Component<{}, IAppState> {
                     </div>
 
                     <Switch>
-
+             
                         <Route exact path="/" component={Home} />
 
                         <Route exact path="/home" component={Home} />
@@ -94,6 +94,7 @@ export default class App extends React.Component<{}, IAppState> {
                         <Route exact path="/createItem" component={newItemForm} />
 
                         <Route component={NoMatch} />
+                 
                     </Switch>
                   
 

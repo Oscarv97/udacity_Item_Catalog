@@ -7,7 +7,7 @@ export default class newItemForm extends React.Component<any, INewItemFormProps>
     private newItem: IInventoryItem;
     constructor(props: INewItemFormProps) {
         super(props);
-        this.newItem = {category: "", id:1, category_id: 1, name:"", user: "", description: "", user_id:1};
+        this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: 1 };
 
     }
 
@@ -31,16 +31,23 @@ export default class newItemForm extends React.Component<any, INewItemFormProps>
     public render(): React.ReactElement<INewItemFormProps> {
         return (
             <div className="mainSection" data-automation={"editNavCategoryContainer"}>
-                <form action="">
+                <form>
+                    <div className="form-group">
+                        <label >Email address</label>
+                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
 
-                    <div className="categoryTitleContainer" tabIndex={-1}>
-                        <input className="pru-myPlaces-urlBox" type="text" onChange={this.handleChange.bind(this)}
-                            name="title" value={this.newItem.name} placeholder="Enter category title" />
-
-                        <input type="text" className="pru-myPlaces-urlName" onChange={this.handleChange.bind(this)}
-                            name="description" value={this.newItem.category} placeholder="Enter category description" />
                     </div>
+                    <div className="form-group">
+                        <label>Name</label>
+                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+                    </div>
+                    <div className="form-group form-check">
+                        <input type="checkbox" className="form-check-input" id="exampleCheck1">
 
+                        </input>
+                        <label className="form-check-label" >Check me out</label>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
 
             </div>
