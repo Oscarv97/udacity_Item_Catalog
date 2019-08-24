@@ -58,8 +58,9 @@ Add additional notes about how to deploy this on a live system
 ## Built With
 
 * [ReactJS](https://reactjs.org/) - The web framework used
-* [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-* [NPM](https://www.npmjs.com) - Backend Server
+* [FireBase](https://firebase.google.com) Authentication management
+* [Flask](https://flask.palletsprojects.com/en/1.1.x/) Backend Server
+* [NPM](https://www.npmjs.com) - package Manager
 
 ## Authors
 
