@@ -16,6 +16,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
             items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: 0, id: 0 }],
             canSelect: true,
             selection: null,
+            errMsg: "",
             isEdit: false,
             edtingItem: null,
             canSave: false,
@@ -29,7 +30,8 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         this.editForm = React.createRef();
     }
 
-    // Get the text sample data from the back end
+
+    // Get all the Items from the Db and store them on the state to be mapped as components
     public componentDidMount(): void {
         this.props.dataServiceProvider.getAll().then((result) => {
             if (result) {
@@ -44,9 +46,12 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         });
     }
 
+    public componentWillReceiveProps(nextProps: IContentProps): void {
+
+    }
+
 
     public render(): React.ReactElement<IContentProps> {
-
         return (
             <main id="mainContent">
                 <div className="container">
@@ -55,28 +60,32 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
 
                     </div>
 
-                {
-                    this.state.currentUser ?
-                    <div className={"actionsBar"}>
-                        <button><Link to="createItem/"> Create new Item </Link></button>
-                        <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
-                        <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
-                    </div>
-                    :
-                    null
-                    // If there is no user in the Session do not render the Actions bar
-                }
+                    {
+                        this.state.currentUser ?
+                            <div className={"actionsBar"}>
+                                <button><Link to="createItem/"> Create new Item </Link></button>
+                                <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
+                                <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
+                            </div>
+                            :
+                            null
+                        // If there is no user in the Session do not render the Actions bar
+                    }
 
                     <div className="row justify-content-around text-center pb-5">
-                        {this.props.menuItems.map(textAssets => (
+                        {this.props.menuItems.map((currentItem, index) => (
                             <GridComponent
-                                key={textAssets.id}
-                                header={textAssets.name}
-                                description={textAssets.description}
-                                image={textAssets.image || GreyBox}
+                            key={currentItem.id}
+                            header={currentItem.name}
+                            description={currentItem.description}
+                            image={currentItem.image || GreyBox}
+                            index={index}
+                            selection={this.handleSelect}
+                            isSelected={currentItem.isSelected}          
                             />
                         ))}
                     </div>
+
                     {this.state.isEdit ?
                         <form action="javascript:void(0);" onSubmit={this.saveEdit}>
 
@@ -110,10 +119,17 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         });
     }
 
+    /**
+     *  Check for Authenticated User else do nothing
+     *  If the Action bar renders 
+     * @private
+     * @param {*} editItem
+     * @memberof Grid
+     */
     private handleUpdate(editItem): void {
         this.state.currentUser ?
-        this.props.dataServiceProvider.updateItem(editItem):
-        null
+            this.props.dataServiceProvider.updateItem(editItem) :
+            null
     }
 
     private openEdit(): void {
@@ -137,7 +153,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
      * @memberof Content
      */
     private submitEdit(): void {
-        !this.state.isEdit && this.state.canSave && this.state.currentUser?
+        !this.state.isEdit && this.state.canSave && this.state.currentUser ?
             this.props.dataServiceProvider.updateItem(this.state.edtingItem)
             :
             //do nothing
@@ -158,13 +174,13 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     private deleteItem(): void {
         console.log(JSON.stringify(this.state.selection));
         this.state.currentUser ?
-        this.props.dataServiceProvider.deleteItem(this.state.selection.id)
-            .then()
-            .catch((error: Error) => {
-                console.log('Failure while attempting to delete item', error);
-            }) 
+            this.props.dataServiceProvider.deleteItem(this.state.selection.id)
+                .then()
+                .catch((error: Error) => {
+                    console.log('Failure while attempting to delete item', error);
+                })
             :
-            this.setState({errMsg: "Please Sign In"})
+            this.setState({ errMsg: "Please Sign In" })
     }
 
 }

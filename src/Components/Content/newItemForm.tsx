@@ -8,11 +8,13 @@ export default class newItemForm extends React.Component<INewItemFormProps, INew
     private newItem: IInventoryItem;
     constructor(props: INewItemFormProps) {
         super(props);
+        let authUser = sessionStorage.getItem('AuthUser');
         this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: 1 };
         this.state = {
             category: "",
             description: "",
             name: "",
+            user: JSON.parse(authUser) || undefined,
             userId: 0
         }
         this.handleReset = this.handleReset.bind(this);
@@ -61,6 +63,9 @@ export default class newItemForm extends React.Component<INewItemFormProps, INew
     public render(): React.ReactElement<INewItemFormProps> {
         return (
             <div className="mainSection" data-automation={"editNavCategoryContainer"}>
+
+            {this.state.user ?
+                <div>
                 <div>
                     <h1>Create new Item</h1>
                     <br />
@@ -89,14 +94,21 @@ export default class newItemForm extends React.Component<INewItemFormProps, INew
 
                     {/* 
                     <div className="form-group form-check">
-                       
+                    
                 </div> */}
                     <button type="reset" onClick={this.handleReset} className="btn btn-secondary">Clear</button>
                     <button type="submit" onClick={this.trySubmit} className="btn btn-primary">Submit</button>
                 </form>
+                </div>
+                :
+                <div>
+                    <h1>Please Log in to create Items</h1>
+                    <br />
+                </div>
+                }
 
-            </div>
-        );
-    }
+</div>
+);
+}
 
 }

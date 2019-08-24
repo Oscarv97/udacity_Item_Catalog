@@ -73,6 +73,9 @@ export default class App extends React.Component<{}, IAppState> {
         }).catch((error: Error) => {
             console.error('Failure to Sign in!', error);
         });
+        // Force ReRender
+        this.setState({});
+
     }
 
     private handleSignOut(): void {
