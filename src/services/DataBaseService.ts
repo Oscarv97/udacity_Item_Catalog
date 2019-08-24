@@ -62,9 +62,10 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public createItem(item: any): Promise<any> {
-        return fetch('/api/', {
+        console.log(JSON.stringify(item));
+        return fetch('api/games/new', {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json"
             },

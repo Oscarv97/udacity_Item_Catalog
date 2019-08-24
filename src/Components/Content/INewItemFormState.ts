@@ -3,5 +3,5 @@ export interface INewItemFormState {
     description: string;
     category: string;
     user: firebase.User;
-    userId: number;
+    userId: string;
 }

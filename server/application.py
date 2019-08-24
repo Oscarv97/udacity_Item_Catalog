@@ -10,10 +10,9 @@ from firebase_admin import credentials
 
 app = Flask(__name__, static_folder="./public/js/")
 
-
 engine = create_engine('sqlite:///itemcatalog.db')
 Base.metadata.bind = engine
-
+\
 # Create database session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -41,15 +40,11 @@ def getAll():
 
 @app.route("/api/games/new", methods=['POST'])
 def newGame():
-    if 'token' not in session:
-        return status.HTTP_401_UN_AUTHORIZED
-
     categories=session.query(Category).all()
     if request.method == 'POST':
         addNewItem=CategoryItem(
             name=request.form['name'],
             description=request.form['description'],
-            price=request.form['price'],
             category_id=request.form['category'],
             user_id=login_session['user_id'])
         session.add(addNewItem)

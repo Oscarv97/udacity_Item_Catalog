@@ -15,7 +15,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
             description: "",
             name: "",
             user: JSON.parse(authUser) || undefined,
-            userId: 0
+            userId: ""
         }
         this.handleReset = this.handleReset.bind(this);
         this.trySubmit = this.trySubmit.bind(this);
@@ -36,7 +36,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
         this.setState((prevState: INewItemFormState) => {
             prevState.name = "";
             prevState.category = "";
-            prevState.userId = 0;
+            prevState.userId = "";
             prevState.description = "";
             return prevState;
         });
@@ -44,16 +44,16 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
 
 
     private trySubmit(): any {
-        if (!this.canSubmit) {
-            return;
-        }
+        // if (!this.canSubmit) {
+        //     return;
+        // }
         let fields = this.state;
-        let userToken = "0"; 
-        fields.user.getIdToken().then((token) => {
-            userToken = token;
-        }).catch((error: Error) => {
-            console.error("Failed to extract token");
-        });
+        let userToken = "0651123185"; 
+        // fields.user.getIdToken().then((token) => {
+        //     userToken = token;
+        // }).catch((error: Error) => {
+        //     console.error("Failed to extract token");
+        // });
         let newItem: IInventoryItem = {
             name: fields.name,
             category: fields.category,
@@ -68,7 +68,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
 
     private canSubmit(): boolean {
         let fields = this.state;
-        if (fields.userId != 0 && fields.name != "" && fields.category != "") {
+        if (fields.name != "" && fields.category != "") {
             return true;
         }
         return false;
@@ -85,7 +85,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                             <h1>Create new Item</h1>
                             <br />
                         </div>
-                        <form>
+                        <form action={"javascript(void);"} onSubmit={(e)=>{e.preventDefault();}}>
                             <div className="form-group">
                                 <label>Item Name</label>
                                 <input name="name" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter Item Name"></input>
@@ -113,13 +113,14 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                             </div>
 
                             <button type="reset" onClick={this.handleReset} className="btn btn-secondary">Clear</button>
-                            <button type="submit" onClick={this.trySubmit} className="btn btn-primary">Submit</button>
+                            <button  onClick={this.trySubmit} className="btn btn-primary">Submit</button>
                         </form>
+                        <br />
                     </div>
                     :
                     <div>
                         <h1>Please Log in to create Items</h1>
-                        <br />
+                    <br />
                     </div>
                 }
 

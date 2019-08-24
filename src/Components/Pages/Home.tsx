@@ -17,7 +17,7 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
         let authUser = sessionStorage.getItem('AuthUser');
         let cachedResults = sessionStorage.getItem('catalogItems');
         let fakeMenuItems: IInventoryItem[] = [
-            { category: "Test", id: 1, name: "Test Item", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
+            { category: "Test", id: 1, name: "Test Item", category_id: 1, description: "Test Description ", user: "Oscar", user_id: "1" },
             // { category: "Test", id: 1, name: "Test Item2", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
             // { category: "Test2", id: 1, name: "Test Item3", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1, isSelected: true },
             // { category: "Test2", id: 1, name: "Test Item4", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },

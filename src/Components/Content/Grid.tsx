@@ -13,7 +13,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         let authUser = sessionStorage.getItem('AuthUser');
         this.state = {
             currentUser: this.props.authedUser || undefined,
-            items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: 0, id: 0 }],
+            items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: "", id: 0 }],
             canSelect: true,
             selection: null,
             errMsg: "",
