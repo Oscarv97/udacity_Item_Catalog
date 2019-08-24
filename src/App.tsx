@@ -4,7 +4,7 @@ import "firebase/firestore";
 import * as React from "react";
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import newItemForm from "~Components/Content/newItemForm";
+import NewItemForm from "~Components/Content/newItemForm";
 import Footer from "./Components/footer/footer";
 import { PageHeader } from "./Components/header/Header";
 import Home from "./Components/Pages/Home";
@@ -118,7 +118,7 @@ export default class App extends React.Component<{}, IAppState> {
 
                         <Route exact path="/home" component={Home} />
 
-                        <Route exact path="/createItem" component={newItemForm} />
+                        {/* <Route exact path="/createItem" component={NewItemForm} /> */}
 
                         <Route component={NoMatch} />
 

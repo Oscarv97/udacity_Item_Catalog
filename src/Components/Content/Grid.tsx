@@ -12,7 +12,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         super(props);
         let authUser = sessionStorage.getItem('AuthUser');
         this.state = {
-            currentUser: JSON.parse(authUser) || undefined,
+            currentUser: this.props.authedUser || undefined,
             items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: 0, id: 0 }],
             canSelect: true,
             selection: null,
@@ -30,24 +30,8 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         this.editForm = React.createRef();
     }
 
-
-    // Get all the Items from the Db and store them on the state to be mapped as components
-    public componentDidMount(): void {
-        this.props.dataServiceProvider.getAll().then((result) => {
-            if (result) {
-                this.setState((prevState: IContentState) => {
-                    prevState.items = result;
-                    return prevState;
-                })
-            }
-            console.log(result);
-        }).catch((error: Error) => {
-            console.error("Failed to get inventory items from DB.", error);
-        });
-    }
-
     public componentWillReceiveProps(nextProps: IContentProps): void {
-
+        this.setState({currentUser: nextProps.authedUser});
     }
 
 
@@ -75,14 +59,14 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                     <div className="row justify-content-around text-center pb-5">
                         {this.props.menuItems.map((currentItem, index) => (
                             <GridComponent
-                            key={currentItem.id}
-                            header={currentItem.name}
-                            description={currentItem.description}
-                            image={currentItem.image || GreyBox}
-                            index={index}
-                            selection={this.handleSelect}
-                            isSelected={currentItem.isSelected}          
-                            />
+                                key={currentItem.id}
+                                header={currentItem.name}
+                                description={currentItem.description}
+                                image={currentItem.image || GreyBox}
+                                index={index}
+                                selection={this.handleSelect}
+                                isSelected={currentItem.isSelected}          
+                                />
                         ))}
                     </div>
 

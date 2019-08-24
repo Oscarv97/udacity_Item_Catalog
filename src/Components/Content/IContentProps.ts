@@ -4,4 +4,5 @@ import { IDataBaseService } from "~services/IDataBaseService";
 export interface IContentProps {
     menuItems: IInventoryItem[];
     dataServiceProvider: IDataBaseService;
+    authedUser: firebase.User;
 }

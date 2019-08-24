@@ -5,28 +5,57 @@ import { IHomeProps } from "./IHomeProps";
 import { DataBaseFactory } from "~services/DataBaseFactory";
 import { IDataBaseService } from "~services/IDataBaseService";
 import Grid from "../../Components/Content/Grid";
+import { IHomeState } from "./IHomeState";
+import NewItemForm from "../Content/newItemForm";
 
 
-export default class Home extends React.Component<IHomeProps, any> {
+export default class Home extends React.Component<IHomeProps, IHomeState> {
     private dataBaseService: IDataBaseService;
 
     constructor(props: IHomeProps) {
         super(props);
-        this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
-    }
-
-    public render(): React.ReactElement<IHomeProps> {
+        let authUser = sessionStorage.getItem('AuthUser');
+        let cachedResults = sessionStorage.getItem('catalogItems');
         let fakeMenuItems: IInventoryItem[] = [
             { category: "Test", id: 1, name: "Test Item", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
             // { category: "Test", id: 1, name: "Test Item2", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
             // { category: "Test2", id: 1, name: "Test Item3", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1, isSelected: true },
             // { category: "Test2", id: 1, name: "Test Item4", category_id: 1, description: "Test Description ", user: "Oscar", user_id: 1 },
         ]
+        this.state = {
+            dbResults: JSON.parse(cachedResults) as IInventoryItem[] || fakeMenuItems,
+            authUser: JSON.parse(authUser) || undefined,
+        }
+        this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
+    }
+
+
+    // Get all the Items from the Db and store them on the state to be mapped as components
+    public componentDidMount(): void {
+        this.dataBaseService.getAll().then((result) => {
+            if (result) {
+                this.setState((prevState: IHomeState) => {
+                    prevState.dbResults = result;
+                    return prevState;
+                })
+            }
+            console.log(result);
+        }).catch((error: Error) => {
+            console.error("Failed to get inventory items from DB.", error);
+        });
+    }
+
+    public render(): React.ReactElement<IHomeProps> {
         return (
             <div className="">
+                
                     <Grid
+                        authedUser={this.state.authUser}
                         dataServiceProvider={this.dataBaseService}
-                        menuItems={fakeMenuItems}/>
+                        menuItems={this.state.dbResults}
+                        />
+
+                        <NewItemForm authedUser={this.state.authUser} dataServiceProvider={this.dataBaseService} />
             </div>
         );
     }

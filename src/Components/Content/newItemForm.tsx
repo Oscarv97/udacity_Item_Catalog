@@ -3,13 +3,13 @@ import { INewItemFormProps } from "./INewItemFormProps";
 import { IInventoryItem } from "~services/IInventoryItem";
 import { INewItemFormState } from "./INewItemFormState";
 
-export default class newItemForm extends React.Component<INewItemFormProps, INewItemFormState> {
+export default class NewItemForm extends React.Component<INewItemFormProps, INewItemFormState> {
 
     private newItem: IInventoryItem;
     constructor(props: INewItemFormProps) {
         super(props);
         let authUser = sessionStorage.getItem('AuthUser');
-        this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: 1 };
+        this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: "0" };
         this.state = {
             category: "",
             description: "",
@@ -44,11 +44,26 @@ export default class newItemForm extends React.Component<INewItemFormProps, INew
 
 
     private trySubmit(): any {
-        if(!this.canSubmit){
+        if (!this.canSubmit) {
             return;
         }
         let fields = this.state;
-        // this.props.createItem(fields.name, fields.category, fields.description, fields.userId);gh
+        let userToken = "0"; 
+        fields.user.getIdToken().then((token) => {
+            userToken = token;
+        }).catch((error: Error) => {
+            console.error("Failed to extract token");
+        });
+        let newItem: IInventoryItem = {
+            name: fields.name,
+            category: fields.category,
+            user: fields.user.email,
+            description: fields.description,
+            id: Math.random(),
+            user_id: userToken
+            
+        };
+        this.props.dataServiceProvider.createItem(newItem);
     }
 
     private canSubmit(): boolean {
@@ -64,51 +79,52 @@ export default class newItemForm extends React.Component<INewItemFormProps, INew
         return (
             <div className="mainSection" data-automation={"editNavCategoryContainer"}>
 
-            {this.state.user ?
-                <div>
-                <div>
-                    <h1>Create new Item</h1>
-                    <br />
-                </div>
-                <form>
-                    <div className="form-group">
-                        <label>Item Name</label>
-                        <input name="name" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter Item Name"></input>
+                {this.state.user ?
+                    <div>
+                        <div>
+                            <h1>Create new Item</h1>
+                            <br />
+                        </div>
+                        <form>
+                            <div className="form-group">
+                                <label>Item Name</label>
+                                <input name="name" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter Item Name"></input>
 
+                            </div>
+                            <div className="form-group">
+                                <label>Image URL</label>
+                                <input name="image" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="imageUrl" placeholder="https://"></input>
+                            </div>
+
+                            <div className="form-group">
+                                <label >Category select</label>
+                                <select name="category"onChange={((e) => { this.textFieldHandler(e); }).bind(this)} className="form-control" id="categorySelect">
+                                    <option>Action</option>
+                                    <option>Adventure</option>
+                                    <option>Racing</option>
+                                    <option>MMO</option>
+                                    <option>Battle royal</option>
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Description</label>
+                                <input name="description" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="descriptionInput" placeholder="Item Description"></input>
+                            </div>
+
+                            <button type="reset" onClick={this.handleReset} className="btn btn-secondary">Clear</button>
+                            <button type="submit" onClick={this.trySubmit} className="btn btn-primary">Submit</button>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label>Category</label>
-                        <input name="description" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputPassword1" placeholder="Category Name"></input>
+                    :
+                    <div>
+                        <h1>Please Log in to create Items</h1>
+                        <br />
                     </div>
-
-                    <div className="form-group">
-                        <label>Description</label>
-                        <input name="category" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="descriptionInput" placeholder="Item Description"></input>
-                    </div>
-
-                    {/* <div className="form-group">
-                        <label>Description</label>
-                        <input name="user" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="descriptionInput" placeholder="Item Description"></input>
-                    </div> */}
-
-
-                    {/* 
-                    <div className="form-group form-check">
-                    
-                </div> */}
-                    <button type="reset" onClick={this.handleReset} className="btn btn-secondary">Clear</button>
-                    <button type="submit" onClick={this.trySubmit} className="btn btn-primary">Submit</button>
-                </form>
-                </div>
-                :
-                <div>
-                    <h1>Please Log in to create Items</h1>
-                    <br />
-                </div>
                 }
 
-</div>
-);
-}
+            </div>
+        );
+    }
 
 }
