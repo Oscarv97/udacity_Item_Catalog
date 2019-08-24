@@ -10,8 +10,9 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     private editForm: any;
     constructor(props) {
         super(props);
+        let authUser = sessionStorage.getItem('AuthUser');
         this.state = {
-            // gridTextAssets: 
+            currentUser: JSON.parse(authUser) || undefined,
             items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: 0, id: 0 }],
             canSelect: true,
             selection: null,
@@ -53,11 +54,18 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                         <h1>All Items </h1>
 
                     </div>
+
+                {
+                    this.state.currentUser ?
                     <div className={"actionsBar"}>
                         <button><Link to="createItem/"> Create new Item </Link></button>
                         <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
                         <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
                     </div>
+                    :
+                    null
+                    // If there is no user in the Session do not render the Actions bar
+                }
 
                     <div className="row justify-content-around text-center pb-5">
                         {this.props.menuItems.map(textAssets => (
@@ -103,7 +111,9 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     }
 
     private handleUpdate(editItem): void {
-        this.props.dataServiceProvider.updateItem(editItem);
+        this.state.currentUser ?
+        this.props.dataServiceProvider.updateItem(editItem):
+        null
     }
 
     private openEdit(): void {
@@ -127,7 +137,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
      * @memberof Content
      */
     private submitEdit(): void {
-        !this.state.isEdit && this.state.canSave ?
+        !this.state.isEdit && this.state.canSave && this.state.currentUser?
             this.props.dataServiceProvider.updateItem(this.state.edtingItem)
             :
             //do nothing
@@ -147,11 +157,14 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
 
     private deleteItem(): void {
         console.log(JSON.stringify(this.state.selection));
+        this.state.currentUser ?
         this.props.dataServiceProvider.deleteItem(this.state.selection.id)
             .then()
             .catch((error: Error) => {
                 console.log('Failure while attempting to delete item', error);
-            });
+            }) 
+            :
+            this.setState({errMsg: "Please Sign In"})
     }
 
 }

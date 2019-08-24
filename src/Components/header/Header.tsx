@@ -24,14 +24,16 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
                         <nav className="navbar navbar-expand-sm navbar-light border-bottom justify-content-between">
                             <Link className="nav-item nav-link active" to="/home">Home</Link>
                      
-                            <button className="btn btn-primary my-2" >
-                                <Link to='/login'>
+                            <button className="btn btn-primary my-2"
+                            onClick={this.props.isUserLoggedIn ? this.props.signOut : this.props.signIn}
+                            >
                                     {
                                         this.props.isUserLoggedIn ?
-                                            this.props.strings.loginButton :
-                                            this.props.strings.logoutButton
+                                        this.props.strings.logoutButton 
+                                        :
+                                        this.props.strings.loginButton 
                                     }
-                                </Link>
+                              
                             </button>
                             <div className="av-item nav-link userProfileConatiner ms-Grid-col ms-md6" style={{ height: "100%" }}>
                                 <span aria-hidden={true} className="userProfileImage ms-Icon ms-Icon--ReminderPerson" >

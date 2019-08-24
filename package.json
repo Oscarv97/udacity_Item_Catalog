@@ -27,7 +27,6 @@
     "office-ui-fabric-react": "^7.17.0",
     "react": "^16.8.6",
     "react-router-dom": "4.3.1",
-    "react-firebaseui": "^4.0.0",
     "react-localization": "^1.0.14"
   },
   "devDependencies": {
