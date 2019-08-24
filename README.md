@@ -59,7 +59,7 @@ Add additional notes about how to deploy this on a live system
 
 * [ReactJS](https://reactjs.org/) - The web framework used
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-* [NPM](https://www.npmjs.com) - Dependency Management
+* [NPM](https://www.npmjs.com) - Backend Server
 
 ## Authors
 

@@ -23,7 +23,7 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
                     <div className="ms-Grid-row">
                         <nav className="navbar navbar-expand-sm navbar-light border-bottom justify-content-between">
                             <Link className="nav-item nav-link active" to="/home">Home</Link>
-                            {/* <Link className="nav-item nav-link active" to="Grid">Grid</Link> */}
+                     
                             <button className="btn btn-primary my-2" >
                                 <Link to='/login'>
                                     {

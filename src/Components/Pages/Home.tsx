@@ -1,5 +1,4 @@
 import * as React from "react";
-import Content from "../Content/Content";
 
 import { IInventoryItem } from "../../services/IInventoryItem";
 import { IHomeProps } from "./IHomeProps";
@@ -25,13 +24,9 @@ export default class Home extends React.Component<IHomeProps, any> {
         ]
         return (
             <div className="">
-            {/* <div className="home-wrapper"> */}
-                {/* <div className="content Ms-Grid"> */}
                     <Grid
                         dataServiceProvider={this.dataBaseService}
-                        // menuItems={{}}
                         menuItems={fakeMenuItems}/>
-                {/* </div> */}
             </div>
         );
     }

@@ -24,16 +24,7 @@ export interface IStrings extends LocalizedStringsMethods {
 export default class App extends React.Component<{}, IAppState> {
     public strings: IStrings;
 
-    //shouldnt be here 
-    private config = {
-        apiKey: "AIzaSyDbd5MOubzIhx29g78IhZp-hWQpFXKeo_s",
-    authDomain: "oscarudacityitemcatalog.firebaseapp.com",
-    databaseURL: "https://oscarudacityitemcatalog.firebaseio.com",
-    projectId: "oscarudacityitemcatalog",
-    storageBucket: "oscarudacityitemcatalog.appspot.com",
-    messagingSenderId: "871478275477",
-    appId: "1:871478275477:web:2730c6ae1b5b6b5c"
-    };
+
 
     constructor(props: any) {
         super(props);
