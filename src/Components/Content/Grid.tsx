@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import GridComponent from "./GridComponent";
 import { IContentProps } from "./IContentProps";
 import { IContentState } from "./IContentState";
@@ -22,16 +21,20 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
             canSave: false,
         }
 
-        this.deleteItem = this.deleteItem.bind(this);\
+        this.deleteItem = this.deleteItem.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
         this.openEdit = this.openEdit.bind(this);
-        this.submitEdit = this.submitEdit.bind(this);
+        this.newItemForm = this.newItemForm.bind(this);
         this.editForm = React.createRef();
+        this.unSelect = this.unSelect.bind(this);
     }
 
     public componentWillReceiveProps(nextProps: IContentProps): void {
         this.setState({currentUser: nextProps.authedUser, items: nextProps.menuItems});
+    }
+
+    private unSelect(): void {
+        this.setState({selection: null});
     }
 
 
@@ -47,9 +50,10 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                     {
                         this.state.currentUser ?
                             <div className={"actionsBar"}>
-                                <button><Link to="createItem/"> Create new Item </Link></button>
+                                <button disabled={this.state.currentUser? false: true} onClick={this.newItemForm}>Create new Item </button>
                                 <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
                                 <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
+                                <button disabled={this.state.selection === null || undefined} onClick={this.unSelect}>Clear Selection</button>
                             </div>
                             :
                             null
@@ -72,19 +76,6 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                             }
                         )}
                     </div>
-
-                    {this.state.isEdit ?
-                        <form action="javascript:void(0);" onSubmit={this.saveEdit}>
-
-                            <input type="text" />
-                            <input onChange={this.handleEditEntry.bind(this)} type="text" value={this.state.edtingItem.name || ""} />
-                            <input onChange={this.handleEditEntry.bind(this)} type="text" value={this.state.edtingItem.description || ""} />
-                            <input onChange={this.handleEditEntry.bind(this)} type="text" value={this.state.edtingItem.image || ""} />
-
-                        </form> :
-                        null
-                    }
-
                 </div>
 
             </main>
@@ -106,62 +97,23 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         });
     }
 
-    /**
-     *  Check for Authenticated User else do nothing
-     *  If the Action bar renders 
-     * @private
-     * @param {*} editItem
-     * @memberof Grid
-     */
-    private handleUpdate(editItem): void {
-        this.state.currentUser ?
-            this.props.dataServiceProvider.updateItem(editItem) :
-            null
-    }
 
     private openEdit(): void {
-        this.setState((prevState: IContentState) => {
-            prevState.edtingItem = prevState.selection;
-            prevState.isEdit = true;
-            return prevState;
-        })
+        this.props.manageForm(this.state.selection);
     }
 
-    private handleEditEntry(target: any): void {
-        this.setState((prevState: any) => {
-
-        });
-    }
-
-    /**
-     * Need to save edit before submit
-     *
-     * @private
-     * @memberof Content
-     */
-    private submitEdit(): void {
-        !this.state.isEdit && this.state.canSave && this.state.currentUser ?
-            this.props.dataServiceProvider.updateItem(this.state.edtingItem)
-            :
-            //do nothing
-            //focus on edit form?
-            null
-    }
-
-    private saveEdit(): void {
-        this.setState((prevState: IContentState) => {
-            prevState.canSave = true;
-            prevState.isEdit = false;
-            prevState.edtingItem = null;
-            prevState.selection = null;
-            return prevState
-        })
+    private newItemForm(): void {
+        this.props.manageForm();
     }
 
     private deleteItem(): void {
         this.state.currentUser ?
             this.props.dataServiceProvider.deleteItem(this.state.selection.id)
-                .then()
+            .then((response) => {
+                if(response.ok){
+                   window.location.reload();
+                }
+            })
                 .catch((error: Error) => {
                     console.log('Failure while attempting to delete item', error);
                 })

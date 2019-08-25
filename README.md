@@ -1,59 +1,24 @@
 # Udacity Project 4 Item Catalog
-One Paragraph of project description goes here
+This is the fourth project as part of the Udacity Full Stack web developer nanoDegree
+I went a little of course and choose to do my frontend in react with a small bit of react router implementation. Also wanted to try out some of the Firebase Services  
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+In the root directory of the project...
 
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+1. Install node modules `yarn install` or `npm install`.
+2. Install Python dependencies `yarn install-requirements` or `npm install-requirements`
+3. Initialize the backend Database `yarn setup-database` or `npm setup-database`
+4. Start development server `yarn start` or `npm start`.
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+Automated unit tests for the front end are done through **Jest** but implementation is not complete
+`npm run test`
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Deployment Steps will follow in Separate Repository
 
 ## Built With
 
@@ -64,14 +29,8 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Oscar Vial** - *Initial work* - [OscarV97](https://github.com/OscarV97)
-
+* **Oscar Vial**  [OscarV97](https://github.com/OscarV97)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-

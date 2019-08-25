@@ -1,10 +1,14 @@
 import { IDataBaseService } from "./IDataBaseService";
 import { IInventoryItem } from "./IInventoryItem";
-// import {fetch }from "whatwg-fetch";
 export class DataBaseService implements IDataBaseService {
 
+    /**
+     * Retrieve all items from sqlite db though Flask api
+     *
+     * @returns {Promise<IInventoryItem[]>}
+     * @memberof DataBaseService
+     */
     public getAll(): Promise<IInventoryItem[]> {
-
         return fetch('/items/api/v1.0/all/',
         {
             method: "GET",
@@ -19,6 +23,14 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
+    /**
+     *  Not Implemented
+     *  
+     * @param {string} itemId
+     * @param {string} catagoryId
+     * @returns {Promise<any>}
+     * @memberof DataBaseService
+     */
     public getItem(itemId: string, catagoryId: string): Promise<any> {
         return fetch('/items/api/v1.0/catalog/',  {
             method: "GET",
@@ -33,6 +45,13 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
+    /**
+     * Post to flask api with Id of item to delete 
+     *
+     * @param {number} itemId
+     * @returns {Promise<any>}
+     * @memberof DataBaseService
+     */
     public deleteItem(itemId: number): Promise<any> {
         return fetch(`/items/api/v1.0/games/${itemId}/delete/`, {
             method: "POST",
@@ -42,17 +61,25 @@ export class DataBaseService implements IDataBaseService {
             if (!response.ok) {
                 this.handleResponseError(response);
             }
+            return(response);
         }).catch((error: Error) => {
             this.handleError(error)
         });
     }
 
-    public updateItem(item: any): Promise<any> {
-        return fetch('/api/', {
-            method: "PUT",
-            mode: "cors",
+    /**
+     * Update fields of given item
+     *
+     * @param {IInventoryItem} item
+     * @returns {Promise<any>}
+     * @memberof DataBaseService
+     */
+    public updateItem(item: IInventoryItem): Promise<any> {
+        return fetch(`items/api/v1.0/games/${item.id}/update/`, {
+            method: "POST",
+            mode: "no-cors",
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
@@ -64,7 +91,15 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
-    public createItem(item: any): Promise<any> {
+
+    /**
+     * Create new item in DB
+     *  @Post
+     * @param {IInventoryItem} item
+     * @returns {Promise<any>}
+     * @memberof DataBaseService
+     */
+    public createItem(item: IInventoryItem): Promise<any> {
         console.log(JSON.stringify(item));
         return fetch('/items/api/v1.0/games/new/', {
             method: "POST",
@@ -77,6 +112,7 @@ export class DataBaseService implements IDataBaseService {
             if (!response.ok) {
                 this.handleResponseError(response);
             }
+            return(response);
         }).catch((error: Error) => {
             this.handleError(error)
         });

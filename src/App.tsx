@@ -110,7 +110,7 @@ export default class App extends React.Component<{}, IAppState> {
                             isUserLoggedIn={this.state.currentUser != null || undefined}
                             strings={this.strings}
                             user={this.state.currentUser || null}
-                            >
+                        >
                         </PageHeader>
                     </div>
 
@@ -119,8 +119,6 @@ export default class App extends React.Component<{}, IAppState> {
                         <Route exact path="/" component={Home} />
 
                         <Route exact path="/home" component={Home} />
-
-                        {/* <Route exact path="/createItem" component={NewItemForm} /> */}
 
                         <Route component={NoMatch} />
 

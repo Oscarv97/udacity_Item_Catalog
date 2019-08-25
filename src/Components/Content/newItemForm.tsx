@@ -11,15 +11,19 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
         let authUser = sessionStorage.getItem('AuthUser');
         this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: "0" };
         this.state = {
-            category: "",
-            description: "",
-            name: "",
+            category: this.props.editItem? this.props.editItem.category: "",
+            description: this.props.editItem? this.props.editItem.description: "",
+            name: this.props.editItem? this.props.editItem.name:"",
             user: JSON.parse(authUser) || undefined,
-            userId: ""
+            userId: "",
+            image: "",
+            isEdit: this.props.editItem === null || undefined? false: true
+
         }
         this.handleReset = this.handleReset.bind(this);
         this.trySubmit = this.trySubmit.bind(this);
-        this.canSubmit = this.canSubmit.bind(this);
+        this.closeForm = this.closeForm.bind(this);
+
     }
 
     private textFieldHandler(e: React.FormEvent<HTMLInputElement>): void {
@@ -42,11 +46,8 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
         });
     }
 
-
     private trySubmit(): any {
-        // if (this.canSubmit) {
-        //     return;
-        // }
+        let isEdit = this.state.isEdit
         let fields = this.state;
         let userToken = "0651123185"; 
         // fields.user.getIdToken().then((token) => {
@@ -54,24 +55,43 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
         // }).catch((error: Error) => {
         //     console.error("Failed to extract token");
         // });
-        let newItem: IInventoryItem = {
-            name: fields.name,
-            category: fields.category,
-            user: fields.user.email,
-            description: fields.description,
-            id:  Math.floor(Math.random() * Math.floor(999999)),
-            user_id: userToken
+        
+        if(isEdit){
+            let editItem: IInventoryItem = {
+                id: this.props.editItem.id,
+                name: fields.name,
+                category: fields.category,
+                user: fields.user.email,
+                description: fields.description,
+                user_id: userToken
+            };
             
-        };
-        this.props.dataServiceProvider.createItem(newItem);
+            this.props.dataServiceProvider.updateItem(editItem).then((response) => {
+                if(response.ok){
+                   window.location.reload();
+                }
+            });
+        }else {
+
+            let newItem: IInventoryItem = {
+                name: fields.name,
+                category: fields.category,
+                user: fields.user.email,
+                description: fields.description,
+                id:  Math.floor(Math.random() * Math.floor(999999)),
+                user_id: userToken
+                
+            };
+            this.props.dataServiceProvider.createItem(newItem).then((response) => {
+                if(response.ok){
+                   window.location.reload();
+                }
+            });
+        }
     }
 
-    private canSubmit(): boolean {
-        let fields = this.state;
-        if (fields.name != "" && fields.category != "") {
-            return true;
-        }
-        return false;
+    private closeForm(): void {
+        this.props.closeForm()
     }
 
 
@@ -82,23 +102,23 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                 {this.state.user ?
                     <div>
                         <div>
-                            <h1>Create new Item</h1>
+                            <h1>{this.state.isEdit ? "Edit Item" :"Create new Item"}</h1>
                             <br />
                         </div>
                         <form action={"javascript(void);"} onSubmit={(e)=>{e.preventDefault();}}>
                             <div className="form-group">
                                 <label>Item Name</label>
-                                <input name="name" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter Item Name"></input>
+                                <input value={this.state.name} name="name" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="exampleInputEmail1" placeholder="Enter Item Name"></input>
 
                             </div>
                             <div className="form-group">
                                 <label>Image URL</label>
-                                <input name="image" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="imageUrl" placeholder="https://"></input>
+                                <input value={this.state.image} name="image" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="imageUrl" placeholder="https://"></input>
                             </div>
 
                             <div className="form-group">
-                                <label >Category select</label>
-                                <select name="category"onChange={((e) => { this.textFieldHandler(e); }).bind(this)} className="form-control" id="categorySelect">
+                                <label>Category select</label>
+                                <select value={this.state.category} name="category" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} className="form-control" id="categorySelect">
                                     <option>Action</option>
                                     <option>Adventure</option>
                                     <option>Racing</option>
@@ -109,9 +129,10 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
 
                             <div className="form-group">
                                 <label>Description</label>
-                                <input name="description" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="descriptionInput" placeholder="Item Description"></input>
+                                <input value={this.state.description} name="description" onChange={((e) => { this.textFieldHandler(e); }).bind(this)} type="text" className="form-control" id="descriptionInput" placeholder="Item Description"></input>
                             </div>
 
+                            <button  onClick={this.closeForm} className="btn btn-secondary">Cancel</button>
                             <button type="reset" onClick={this.handleReset} className="btn btn-secondary">Clear</button>
                             <button  onClick={this.trySubmit} className="btn btn-primary">Submit</button>
                         </form>

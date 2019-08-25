@@ -5,4 +5,5 @@ export interface IContentProps {
     menuItems: IInventoryItem[];
     dataServiceProvider: IDataBaseService;
     authedUser: firebase.User;
+    manageForm: any;
 }

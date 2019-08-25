@@ -25,7 +25,11 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
         this.state = {
             dbResults: JSON.parse(cachedResults) as IInventoryItem[] || fakeMenuItems,
             authUser: JSON.parse(authUser) || undefined,
+            formOpen: false,
+            formItem: undefined
         }
+        this.openForm = this.openForm.bind(this);
+        this.closeForm = this.closeForm.bind(this);
         this.dataBaseService = DataBaseFactory.CreateDataBaseConnection('python');
     }
 
@@ -44,6 +48,20 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
         });
     }
 
+    private openForm(item? :IInventoryItem) :void {
+        console.log("Called open");
+        if(item) {
+            console.log((item));
+            this.setState({formOpen: true, formItem: item});
+        }else {
+            this.setState({formOpen: true, formItem: null});
+        }
+    }
+
+    private closeForm(): void {
+        this.setState({formOpen: false , formItem: null});
+    }
+
     public render(): React.ReactElement<IHomeProps> {
         return (
             <div className="">
@@ -52,9 +70,17 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
                         authedUser={this.state.authUser}
                         dataServiceProvider={this.dataBaseService}
                         menuItems={this.state.dbResults}
+                        manageForm={this.openForm}
                         />
-
-                        <NewItemForm authedUser={this.state.authUser} dataServiceProvider={this.dataBaseService} />
+                        {this.state.formOpen ?
+                        <NewItemForm
+                                authedUser={this.state.authUser}
+                                dataServiceProvider={this.dataBaseService}
+                                editItem={this.state.formItem || null}
+                                closeForm={this.closeForm}
+                        />
+                        : null
+                    }
             </div>
         );
     }

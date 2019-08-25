@@ -4,8 +4,12 @@
   "description": "Place your catalog project in this directory.",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"yarn start-frontend || npm run start-frontend\" \"yarn start-backend || npm run start-backend\"",
+    "install-requirements": "pip install -r server/requirements.txt",
+    "setup-database" : "python3 server/database_setup.py && python3 server/populate_database.py",
+    "start-backend": "python3 server/application.py || py -3 server/application.py || python server/application.py",
     "test": "jest --no-cache --config ./buildConfig/jest.config.js",
-    "start": "parcel serve src/index.html --port 8000",
+    "start-frontend": "parcel serve src/index.html --port 8000",
     "build": "parcel build src/index.html -d server/public/js/"
   },
   "repository": {
@@ -33,6 +37,7 @@
     "@types/jest": "^24.0.18",
     "@types/react-router-dom": "4.3.4",
     "@types/whatwg-fetch": "0.0.33",
+    "concurrently": "^4.1.0",
     "cssnano": "^4.1.10",
     "jest": "^24.8.0",
     "jest-junit": "^7.0.0",

@@ -1,6 +1,10 @@
 import { IDataBaseService } from "~services/IDataBaseService";
+import { IInventoryItem } from "~services/IInventoryItem";
 
 export interface INewItemFormProps {
-    dataServiceProvider: IDataBaseService;
     authedUser: firebase.User;
+    dataServiceProvider: IDataBaseService;
+    closeForm: any;
+    editItem? : IInventoryItem;
+    
 }

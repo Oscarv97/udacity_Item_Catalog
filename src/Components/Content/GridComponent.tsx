@@ -1,24 +1,29 @@
 ﻿import * as  React from "react"
 import { IGridCardProps } from "./IGridCardProps";
 
-export default class GridComponent extends React.Component<IGridCardProps, {}> {
+
+export interface IGridState {
+  isSelected: boolean;
+}
+export default class GridComponent extends React.Component<IGridCardProps, any> {
 
   /**
    *
    */
   constructor(props: IGridCardProps) {
     super(props);
+    this.state = {
+      isSelected: props.isSelected
+    }
   }
 
-  public componentWillReceiveProps(): void {
-      // Stateless Component has nothing to set but if the function invokes 
-      // we can force a reRender to update the Readonly props for which card is selected
-      this.setState({});
+  public componentWillReceiveProps(nextProps: IGridCardProps): void {
+      this.setState({isSelected: nextProps.isSelected});
   }
 
   public render(): React.ReactElement<IGridCardProps> {
 
-    let color = this.props.isSelected ? "#767676" : "white";
+    let color = this.state.isSelected ? "#767676" : "white";
     return (
 
       <div className="card" style={{ width: "18rem" }}>
