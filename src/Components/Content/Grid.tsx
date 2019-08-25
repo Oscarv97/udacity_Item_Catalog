@@ -1,19 +1,19 @@
+import { Link } from "react-router-dom";
 import GridComponent from "./GridComponent";
+import { IContentProps } from "./IContentProps";
+import { IContentState } from "./IContentState";
 const GreyBox = require("../images/GreyBox.svg");
 
 import React = require("react");
-import { IContentProps } from "./IContentProps";
-import { Link } from "react-router-dom";
-import { IContentState } from "./IContentState";
 
 export default class Grid extends React.Component<IContentProps, IContentState> {
     private editForm: any;
     constructor(props) {
         super(props);
-        let authUser = sessionStorage.getItem('AuthUser');
+
         this.state = {
             currentUser: this.props.authedUser || undefined,
-            items: [{ description: "", category: "", category_id: 0, name: "", user: "Oscar", user_id: "", id: 0 }],
+            items: this.props.menuItems || [],
             canSelect: true,
             selection: null,
             errMsg: "",
@@ -22,7 +22,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
             canSave: false,
         }
 
-        this.deleteItem = this.deleteItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);\
         this.handleSelect = this.handleSelect.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.openEdit = this.openEdit.bind(this);
@@ -60,6 +60,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                         {this.props.menuItems.map((currentItem, index) => (
                             <GridComponent
                                 key={currentItem.id}
+                                id={currentItem.id}
                                 header={currentItem.name}
                                 description={currentItem.description}
                                 image={currentItem.image || GreyBox}
@@ -156,7 +157,6 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     }
 
     private deleteItem(): void {
-        console.log(JSON.stringify(this.state.selection));
         this.state.currentUser ?
             this.props.dataServiceProvider.deleteItem(this.state.selection.id)
                 .then()

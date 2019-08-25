@@ -34,11 +34,12 @@ def serve(path):
     else:
         return send_from_directory(app.static_folder, 'index.html')
 
-@app.route("/api/all/")
+@app.route("/items/api/v1.0/all/")
 def getAll():
-    return jsonify(json.loads(fakeData))
+    allGames = session.query(CategoryItem).all()
+    return jsonify(allGames=[g.serialize for g in  allGames])
 
-@app.route("/api/games/new", methods=['POST'])
+@app.route("/items/api/v1.0/games/new", methods=['POST'])
 def newGame():
     categories=session.query(Category).all()
     if request.method == 'POST':
@@ -57,21 +58,51 @@ def newGame():
 # Display a Specific Item
 @app.route('/api/catalog/<path:category_name>/<path:item_name>/')
 def showItem(category_name, item_name):
-    category = session.query(Category).filter_by(name=category_name).one()
-    item = session.query(Item).filter_by(name=item_name,\
+    category = session.query(category_name).filter_by(name=category_name).one()
+    item = session.query(item_name).filter_by(name=item_name,\
                                         category=category).one()
     return jsonify(item=[item.serialize])
 
-@app.route("/api/*")
+# Update Item
+@app.route('/items/api/v1.0/games/<int:name>', methods=['PUT'])
+def update_task(name):
+
+    games = session.query()
+    game = [game for game in games if game['id'] == task_id]
+    if len(game) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    if 'title' in request.json and type(request.json['name']) != unicode:
+        abort(400)
+    if 'description' in request.json and type(request.json['description']) is not unicode:
+        abort(400)
+    if 'done' in request.json and type(request.json['done']) is not bool:
+        abort(400)
+    game[0]['name'] = request.json.get('name', game[0]['name'])
+    game[0]['description'] = request.json.get('description', game[0]['description'])
+    game[0]['done'] = request.json.get('done', game[0]['done'])
+    return jsonify({'game': game[0]})
+
+
+# Delete Item
+@app.route('/items/api/v1.0/games/<int:item_id>', methods=['DELETE'])
+def delete_task(item_id):
+    itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
+    session.delete(itemToDelete)
+    session.commit()
+
+
+
+@app.route("/items/api/v1.0/*")
 def catchAllApi():
     # try do 304 redirect to other  content
     return {"Your lost"}
 
 
-@app.route("/*")
-def catchAll():
-    return url_for("/#/404/")
-
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 def login_required(id_token):
     # id_token comes from the client app (shown above)

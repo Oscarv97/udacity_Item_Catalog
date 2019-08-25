@@ -108,7 +108,9 @@ export default class App extends React.Component<{}, IAppState> {
                             signIn={this.handleLogin}
                             signOut={this.handleSignOut}
                             isUserLoggedIn={this.state.currentUser != null || undefined}
-                            strings={this.strings}>
+                            strings={this.strings}
+                            user={this.state.currentUser || null}
+                            >
                         </PageHeader>
                     </div>
 

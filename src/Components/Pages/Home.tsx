@@ -35,11 +35,10 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
         this.dataBaseService.getAll().then((result) => {
             if (result) {
                 this.setState((prevState: IHomeState) => {
-                    prevState.dbResults = result;
+                    prevState.dbResults = result["allGames"];
                     return prevState;
                 })
             }
-            console.log(result);
         }).catch((error: Error) => {
             console.error("Failed to get inventory items from DB.", error);
         });

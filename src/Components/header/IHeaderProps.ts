@@ -5,5 +5,6 @@ export interface IHeaderProps {
     isUserLoggedIn: boolean;
     signIn(): void;
     signOut(): void;
+    user?: firebase.User;
    
 }

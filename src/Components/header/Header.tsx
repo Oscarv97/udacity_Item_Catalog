@@ -22,24 +22,36 @@ export class PageHeader extends React.Component<IHeaderProps, {}> {
                 <div className="userProfileCorner ms-Grid-col ms-md2">
                     <div className="ms-Grid-row">
                         <nav className="navbar navbar-expand-sm navbar-light border-bottom justify-content-between">
+
                             <Link className="nav-item nav-link active" to="/home">Home</Link>
-                     
+
+
                             <button className="btn btn-primary my-2"
-                            onClick={this.props.isUserLoggedIn ? this.props.signOut : this.props.signIn}
+                                onClick={this.props.isUserLoggedIn ? this.props.signOut : this.props.signIn}
                             >
-                                    {
-                                        this.props.isUserLoggedIn ?
-                                        this.props.strings.logoutButton 
+                                {
+                                    this.props.isUserLoggedIn ?
+                                        this.props.strings.logoutButton
                                         :
-                                        this.props.strings.loginButton 
-                                    }
-                              
+                                        this.props.strings.loginButton
+                                }
+
                             </button>
+
+
                             <div className="av-item nav-link userProfileConatiner ms-Grid-col ms-md6" style={{ height: "100%" }}>
-                                <span aria-hidden={true} className="userProfileImage ms-Icon ms-Icon--ReminderPerson" >
-                                    <span className='ms-Icon ms-Icon--ReminderPerson' style={{ visibility: "hidden", height: '100%' }}>hi</span>
-                                </span>
+                                {this.props.user ?
+
+                                    <div className="img-area userProfileImage">
+                                        <img className="userProfileImage" src={this.props.user.photoURL} alt="profile" />
+                                    </div>
+                                    :
+                                    <span aria-hidden={true} className="userProfileImage ms-Icon ms-Icon--ReminderPerson" >
+                                        <span className='ms-Icon ms-Icon--ReminderPerson' style={{ visibility: "hidden", height: '100%' }}>hi</span>
+                                    </span>
+                                }
                             </div>
+
                         </nav>
                     </div>
                 </div>

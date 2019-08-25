@@ -1,3 +1,5 @@
+import os
+import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -6,7 +8,6 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 class User(Base):
-
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
@@ -16,7 +17,6 @@ class User(Base):
 
 
 class Category(Base):
-
     __tablename__ = "category"
 
     id = Column(Integer, primary_key=True)
@@ -56,5 +56,7 @@ class CategoryItem(Base):
         }
 
 
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine('sqlite:///gamesCatalog.db')
+
+
 Base.metadata.create_all(engine)

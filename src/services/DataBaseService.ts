@@ -5,7 +5,7 @@ export class DataBaseService implements IDataBaseService {
 
     public getAll(): Promise<IInventoryItem[]> {
 
-        return fetch('api/all/',
+        return fetch('/items/api/v1.0/all/',
         {
             method: "GET",
             mode: "no-cors"
@@ -20,7 +20,7 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public getItem(itemId: string, catagoryId: string): Promise<any> {
-        return fetch('/api/catalog/',  {
+        return fetch('/items/api/v1.0/catalog/',  {
             method: "GET",
         
         }).then((response: Response) => {
@@ -34,11 +34,14 @@ export class DataBaseService implements IDataBaseService {
     }
 
     public deleteItem(itemId: number): Promise<any> {
-        return fetch('http://localhost:5000/api/delete', {
+        return fetch(`/items/api/v1.0/games/${itemId}/delete/`, {
             method: "POST",
-            mode: "cors"
-        }).then((result: any) => {
-
+            mode: "no-cors",
+           
+        }).then((response: any) => {
+            if (!response.ok) {
+                this.handleResponseError(response);
+            }
         }).catch((error: Error) => {
             this.handleError(error)
         });
@@ -63,7 +66,7 @@ export class DataBaseService implements IDataBaseService {
 
     public createItem(item: any): Promise<any> {
         console.log(JSON.stringify(item));
-        return fetch('api/games/new', {
+        return fetch('/items/api/v1.0/games/new', {
             method: "POST",
             mode: "no-cors",
             headers: {

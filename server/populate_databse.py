@@ -1,4 +1,4 @@
-from database_setup import User, Base, Item, Category
+from database_setup import User, Base, CategoryItem, Category
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
@@ -25,7 +25,8 @@ category1 = Category(
 session.add(category1)
 session.commit()
 
-item1 = Item(
+item1 = CategoryItem(
+    id=141,
     name='BulletStorm',
     description='Mindless Violence' ,
     category=category1,
@@ -35,4 +36,4 @@ item1 = Item(
 session.add(item1)
 session.commit()
 
-print('nuke and poplate database with prepopulated data')
+print('DB loaded')
