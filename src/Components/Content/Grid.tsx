@@ -31,7 +31,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     }
 
     public componentWillReceiveProps(nextProps: IContentProps): void {
-        this.setState({currentUser: nextProps.authedUser});
+        this.setState({currentUser: nextProps.authedUser, items: nextProps.menuItems});
     }
 
 
@@ -57,8 +57,8 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                     }
 
                     <div className="row justify-content-around text-center pb-5">
-                        {this.props.menuItems.map((currentItem, index) => (
-                            <GridComponent
+                        {this.state.items.map((currentItem, index) => {
+                            return( <GridComponent
                                 key={currentItem.id}
                                 id={currentItem.id}
                                 header={currentItem.name}
@@ -68,7 +68,9 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                                 selection={this.handleSelect}
                                 isSelected={currentItem.isSelected}          
                                 />
-                        ))}
+                                )
+                            }
+                        )}
                     </div>
 
                     {this.state.isEdit ?

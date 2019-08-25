@@ -86,11 +86,15 @@ def update_task(name):
 
 
 # Delete Item
-@app.route('/items/api/v1.0/games/<int:item_id>', methods=['DELETE'])
+@app.route('/items/api/v1.0/games/<int:item_id>/delete/', methods=['POST'])
 def delete_task(item_id):
-    itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
-    session.delete(itemToDelete)
-    session.commit()
+    if request.method == 'POST':
+        itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
+        session.delete(itemToDelete)
+        session.commit()
+        return send_from_directory(app.static_folder, 'index.html')
+    else:
+        return make_response(jsonify({'error': 'Bad Request'}), 400)
 
 
 
