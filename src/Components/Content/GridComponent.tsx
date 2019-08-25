@@ -18,7 +18,7 @@ export default class GridComponent extends React.Component<IGridCardProps, {}> {
 
   public render(): React.ReactElement<IGridCardProps> {
 
-    let color = this.props.isSelected ? "blue" : "white";
+    let color = this.props.isSelected ? "#767676" : "white";
     return (
 
       <div className="card" style={{ width: "18rem" }}>

@@ -56,7 +56,7 @@ class CategoryItem(Base):
         }
 
 
-engine = create_engine('sqlite:///gamesCatalog.db')
+engine = create_engine('sqlite:///itemcatalog.db')
 
 
 Base.metadata.create_all(engine)

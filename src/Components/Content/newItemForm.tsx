@@ -44,7 +44,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
 
 
     private trySubmit(): any {
-        // if (!this.canSubmit) {
+        // if (this.canSubmit) {
         //     return;
         // }
         let fields = this.state;
@@ -59,7 +59,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
             category: fields.category,
             user: fields.user.email,
             description: fields.description,
-            id: Math.random(),
+            id:  Math.floor(Math.random() * Math.floor(999999)),
             user_id: userToken
             
         };

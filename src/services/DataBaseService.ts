@@ -66,11 +66,11 @@ export class DataBaseService implements IDataBaseService {
 
     public createItem(item: any): Promise<any> {
         console.log(JSON.stringify(item));
-        return fetch('/items/api/v1.0/games/new', {
+        return fetch('/items/api/v1.0/games/new/', {
             method: "POST",
             mode: "no-cors",
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
