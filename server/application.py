@@ -19,7 +19,9 @@ HTTP_REQUEST = google.auth.transport.requests.Request()
 app = Flask(__name__, static_folder="./public/js/")
 
 
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine('sqlite:///itemcatalog.db',
+connect_args={'check_same_thread': False}
+)
 Base.metadata.bind = engine
 
 # Create database session
