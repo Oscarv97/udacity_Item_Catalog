@@ -30,11 +30,11 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
     }
 
     public componentWillReceiveProps(nextProps: IContentProps): void {
-        this.setState({currentUser: nextProps.authedUser, items: nextProps.menuItems});
+        this.setState({ currentUser: nextProps.authedUser, items: nextProps.menuItems });
     }
 
     private unSelect(): void {
-        this.setState({selection: null});
+        this.setState({ selection: null });
     }
 
 
@@ -50,7 +50,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                     {
                         this.state.currentUser ?
                             <div className={"actionsBar"}>
-                                <button disabled={this.state.currentUser? false: true} onClick={this.newItemForm}>Create new Item </button>
+                                <button disabled={this.state.currentUser ? false : true} onClick={this.newItemForm}>Create new Item </button>
                                 <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
                                 <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
                                 <button disabled={this.state.selection === null || undefined} onClick={this.unSelect}>Clear Selection</button>
@@ -62,7 +62,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
 
                     <div className="row justify-content-around text-center pb-5">
                         {this.state.items.map((currentItem, index) => {
-                            return( <GridComponent
+                            return (<GridComponent
                                 key={currentItem.id}
                                 id={currentItem.id}
                                 header={currentItem.name}
@@ -70,10 +70,10 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                                 image={currentItem.image || GreyBox}
                                 index={index}
                                 selection={this.handleSelect}
-                                isSelected={currentItem.isSelected}          
-                                />
-                                )
-                            }
+                                isSelected={currentItem.isSelected}
+                            />
+                            )
+                        }
                         )}
                     </div>
                 </div>
@@ -106,19 +106,24 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         this.props.manageForm();
     }
 
-    private deleteItem(): void {
-        this.state.currentUser ?
-            this.props.dataServiceProvider.deleteItem(this.state.selection.id)
-            .then((response) => {
-                if(response.ok){
-                   window.location.reload();
-                }
-            })
-                .catch((error: Error) => {
-                    console.log('Failure while attempting to delete item', error);
-                })
-            :
-            this.setState({ errMsg: "Please Sign In" })
+
+
+    private async deleteItem(): Promise<void> {
+        let handleError = (error?) => {
+            console.log('Failure while attempting to delete item');
+        }
+        try {
+            let user = sessionStorage.getItem("AuthUser");
+            let token = JSON.parse(user).stsTokenManager.accessToken;
+            const response = await this.props.dataServiceProvider.deleteItem(this.state.selection.id, token);
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                handleError();
+            }
+        } catch (error) {
+            handleError(error);
+        }
     }
 
 }

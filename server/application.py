@@ -1,13 +1,23 @@
 import os
 import json
+import flask_cors
 from flask import Flask, send_from_directory, url_for
 from flask import request, redirect, jsonify, make_response
 from flask import session as login_session
 from sqlalchemy import asc, create_engine
 from sqlalchemy.orm import sessionmaker
+import google.auth.transport.requests
+import google.oauth2.id_token
+import requests_toolbelt.adapters.appengine
 from database_setup import Base, Category, CategoryItem, User
 
+# Use the App Engine Requests adapter. This makes sure that Requests uses
+# URLFetch.
+
+HTTP_REQUEST = google.auth.transport.requests.Request()
+
 app = Flask(__name__, static_folder="./public/js/")
+
 
 engine = create_engine('sqlite:///itemcatalog.db')
 Base.metadata.bind = engine
@@ -32,10 +42,20 @@ def getAll():
     return jsonify(allGames=[g.serialize for g in allGames])
 
 
+# check Auth then create new game
 @app.route("/items/api/v1.0/games/new/", methods=['POST'])
 def newGame():
+    req_data = request.get_json(force=True)
+    # Verify Firebase auth.
+    # [START verify_token]
+    id_token = request.headers['Authorization'].split(' ').pop()
+    claims = google.oauth2.id_token.verify_firebase_token(
+        id_token, HTTP_REQUEST)
+    if not claims:
+        return 'Unauthorized', 401
+    # [END verify_token]
+
     if request.method == 'POST':
-        req_data = request.get_json(force=True)
         categoryname = req_data["category"]
         category = session.query(Category).filter_by(name=categoryname).one()
         addNewItem = CategoryItem(
@@ -53,19 +73,27 @@ def newGame():
 
 
 # Display a Specific Item
-@app.route('/api/catalog/<path:category_name>/<path:item_name>/')
-def showItem(category_name, item_name):
-    category = session.query(category_name).filter_by(name=category_name).one()
-    item = session.query(item_name).filter_by(name=item_name,
-                                              category=category).one()
+@app.route('/items/api/v1.0/getgame/<path:category_name>/<path:item_id>/')
+def showItem(category_name, item_id):
+    item = session.query(Category).filter_by(category_name=category_name, 
+                                            name=item_id,).one()
     return jsonify(item=[item.serialize])
 
 
 # Update Item
 @app.route('/items/api/v1.0/games/<int:item_id>/update/', methods=['POST'])
-def update_task(item_id):
-    gameToEdit = session.query(CategoryItem).filter_by(id=item_id).one()
+def update_task(item_id):  
     req_data = request.get_json(force=True)
+    # Verify Firebase auth.
+    # [START verify_token]
+    id_token = request.headers['Authorization'].split(' ').pop()
+    claims = google.oauth2.id_token.verify_firebase_token(
+        id_token, HTTP_REQUEST)
+    if not claims:
+        return 'Unauthorized', 401
+    # [END verify_token]
+
+    gameToEdit = session.query(CategoryItem).filter_by(id=item_id).one()
     categoryname = req_data["category"]
     category = session.query(Category).filter_by(name=categoryname).one()
     if request.method == 'POST':
@@ -84,6 +112,16 @@ def update_task(item_id):
 # Delete Item
 @app.route('/items/api/v1.0/games/<int:item_id>/delete/', methods=['POST'])
 def delete_task(item_id):
+    print(request.headers)
+     # Verify Firebase auth.
+    # [START verify_token]
+    id_token = request.headers['Authorization'].split(' ').pop()
+    claims = google.oauth2.id_token.verify_firebase_token(
+        id_token, HTTP_REQUEST)
+    if not claims:
+        return 'Unauthorized', 401
+    # [END verify_token]
+    
     if request.method == 'POST':
         itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
         session.delete(itemToDelete)

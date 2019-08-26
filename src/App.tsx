@@ -58,10 +58,10 @@ export default class App extends React.Component<{}, IAppState> {
             if (user) {
                 sessionStorage.setItem('AuthUser', JSON.stringify(user));
                 // User is signed in.
+            }else{
+                sessionStorage.removeItem('AuthUser');
             }
         });
-
-
     }
 
     private handleLogin(): void {
@@ -93,9 +93,7 @@ export default class App extends React.Component<{}, IAppState> {
         if (sessionUser) {
             this.setState({ currentUser: JSON.parse(sessionUser) });
         }
-
     }
-
 
     public render(): React.ReactElement<any> {
         return (

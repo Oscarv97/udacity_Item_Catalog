@@ -21,19 +21,19 @@ export class DataBaseFactory implements IDataBaseService {
         return this.databaseService.getAll();
     }
 
-    public getItem(itemId: string, catagoryId: string): Promise<any> {
-        return this.databaseService.getItem(itemId, catagoryId);
+    public getItem(itemId: number, categoryName: string): Promise<any> {
+        return this.databaseService.getItem(itemId, categoryName);
     }
 
-    public deleteItem(itemId: number): Promise<any> {
-        return this.databaseService.deleteItem(itemId);
+    public deleteItem(itemId: number, token: string): Promise<void> {
+        return this.databaseService.deleteItem(itemId, token);
     }
 
-    public updateItem(item: any): Promise<any> {
-        return this.databaseService.updateItem(item);
+    public updateItem(item: any, token: string): Promise<void> {
+        return this.databaseService.updateItem(item, token);
     }
 
-    public createItem(item: any): Promise<any> {
-        return this.databaseService.createItem(item);
+    public createItem(item: any, token: string): Promise<void> {
+        return this.databaseService.createItem(item, token);
     }
 }

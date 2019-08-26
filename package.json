@@ -4,9 +4,9 @@
   "description": "Place your catalog project in this directory.",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"yarn start-frontend || npm run start-frontend\" \"yarn start-backend || npm run start-backend\"",
-    "install-requirements": "pip install -r server/requirements.txt",
-    "setup-database" : "python3 server/database_setup.py && python3 server/populate_database.py",
+    "start": "npm run build && concurrently \"yarn start-frontend || npm run start-frontend\" \"yarn start-backend || npm run start-backend\"",
+    "install-requirements": "pip3 install -r server/requirements.txt",
+    "setup-database": "python3 server/database_setup.py && python3 server/populate_database.py",
     "start-backend": "python3 server/application.py || py -3 server/application.py || python server/application.py",
     "test": "jest --no-cache --config ./buildConfig/jest.config.js",
     "start-frontend": "parcel serve src/index.html --port 8000",

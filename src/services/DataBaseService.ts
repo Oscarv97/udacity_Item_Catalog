@@ -23,18 +23,21 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
+ 
     /**
-     *  Not Implemented
-     *  
-     * @param {string} itemId
-     * @param {string} catagoryId
+     * Request arbitrary item from Database by
+     *
+     * @param {number} itemId
+     * @param {string} categoryName
      * @returns {Promise<any>}
      * @memberof DataBaseService
      */
-    public getItem(itemId: string, catagoryId: string): Promise<any> {
-        return fetch('/items/api/v1.0/catalog/',  {
-            method: "GET",
-        
+    public getItem(itemId: number, categoryName: string): Promise<any> {
+        return fetch(`/items/api/v1.0/getgame/${categoryName}/${itemId}/`,  {
+            headers :{
+                method: "GET",
+                mode: "no-cors",
+            },
         }).then((response: Response) => {
             if (!response.ok) {
                 this.handleResponseError(response);
@@ -45,18 +48,24 @@ export class DataBaseService implements IDataBaseService {
         });
     }
 
+
     /**
      * Post to flask api with Id of item to delete 
      *
      * @param {number} itemId
+     * @param {string} token
      * @returns {Promise<any>}
      * @memberof DataBaseService
      */
-    public deleteItem(itemId: number): Promise<any> {
+    public deleteItem(itemId: number, token: string): Promise<any> {
         return fetch(`/items/api/v1.0/games/${itemId}/delete/`, {
             method: "POST",
-            mode: "no-cors",
-           
+            credentials: "include",
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
         }).then((response: any) => {
             if (!response.ok) {
                 this.handleResponseError(response);
@@ -74,18 +83,21 @@ export class DataBaseService implements IDataBaseService {
      * @returns {Promise<any>}
      * @memberof DataBaseService
      */
-    public updateItem(item: IInventoryItem): Promise<any> {
+    public updateItem(item: IInventoryItem, token: string): Promise<any> {
         return fetch(`items/api/v1.0/games/${item.id}/update/`, {
             method: "POST",
-            mode: "no-cors",
-            headers: {
+            credentials: "include",
+            headers : {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
             if (!response.ok) {
                 this.handleResponseError(response);
             }
+            return(response);
         }).catch((error: Error) => {
             this.handleError(error)
         });
@@ -99,13 +111,15 @@ export class DataBaseService implements IDataBaseService {
      * @returns {Promise<any>}
      * @memberof DataBaseService
      */
-    public createItem(item: IInventoryItem): Promise<any> {
+    public createItem(item: IInventoryItem, token: string): Promise<any> {
         console.log(JSON.stringify(item));
         return fetch('/items/api/v1.0/games/new/', {
             method: "POST",
-            mode: "no-cors",
-            headers: {
+            credentials: "include",
+            headers : {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
