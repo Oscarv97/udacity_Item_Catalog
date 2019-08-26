@@ -11,7 +11,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "user"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(String(250), primary_key=True)
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
@@ -22,7 +22,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(String(250), ForeignKey('user.id'))
     user = relationship(User)
 
     @property
@@ -42,7 +42,7 @@ class CategoryItem(Base):
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(String(250), ForeignKey('user.id'))
     user = relationship(User)
 
     @property

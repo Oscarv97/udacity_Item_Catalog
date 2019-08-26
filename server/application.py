@@ -20,8 +20,8 @@ app = Flask(__name__, static_folder="./public/js/")
 
 
 engine = create_engine('sqlite:///itemcatalog.db',
-connect_args={'check_same_thread': False}
-)
+                       connect_args={'check_same_thread': False}
+                       )
 Base.metadata.bind = engine
 
 # Create database session
@@ -102,8 +102,16 @@ def update_task(item_id):
     # [END verify_token]
 
     gameToEdit = session.query(CategoryItem).filter_by(id=item_id).one()
+    creator = gameToEdit.user_id
+    user = req_data['user_id']
+    # If logged in user != item owner redirect them
     categoryname = req_data["category"]
     category = session.query(Category).filter_by(name=categoryname).one()
+    # If logged in user != item owner redirect them
+    if creator != user:
+        make_response(jsonify({'error': 'Not your item to delete'}), 401)
+        return 'Unauthorized', 401
+
     if request.method == 'POST':
         if req_data['name']:
             gameToEdit.name = req_data['name']
@@ -118,9 +126,9 @@ def update_task(item_id):
 
 
 # Delete Item
-@app.route('/items/api/v1.0/games/<int:item_id>/delete/', methods=['POST'])
-def delete_task(item_id):
-    print(request.headers)
+@app.route('/items/api/v1.0/games/<int:item_id>/delete/<path:user_id>/',
+           methods=['POST'])
+def delete_task(item_id, user_id):
     # Verify Firebase auth.
     # [START verify_token]
     id_token = request.headers['Authorization'].split(' ').pop()
@@ -130,8 +138,17 @@ def delete_task(item_id):
         return 'Unauthorized', 401
     # [END verify_token]
 
+    itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
+    print(itemToDelete)
+    creator = itemToDelete.user_id
+    user = user_id
+    print(user)
+    # If logged in user != item owner deny them
+    if creator != user:
+        make_response(jsonify({'error': 'Not your item to delete'}), 401)
+        return 'Unauthorized', 401
+
     if request.method == 'POST':
-        itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
         session.delete(itemToDelete)
         session.commit()
         return send_from_directory(app.static_folder, 'index.html')

@@ -59,6 +59,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
             console.log('Failure while attempting to delete item');
         }
         let user = sessionStorage.getItem("AuthUser");
+        let userId = JSON.parse(user).uid;
         let token = JSON.parse(user).stsTokenManager.accessToken;
 
         if (isEdit) {
@@ -69,7 +70,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                     category: fields.category,
                     user: fields.user.email,
                     description: fields.description,
-                    user_id: token
+                    user_id: userId
                 };
                 const response = await this.props.dataServiceProvider.updateItem(editItem, token);
                 if (response.ok) {
@@ -89,7 +90,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                 user: fields.user.email,
                 description: fields.description,
                 id: Math.floor(Math.random() * Math.floor(999999)),
-                user_id: token
+                user_id: userId,
 
             };
             const response = await this.props.dataServiceProvider.createItem(newItem, token);

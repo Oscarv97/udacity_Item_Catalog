@@ -29,8 +29,8 @@ export class DataBaseFactory implements IDataBaseService {
         return this.databaseService.getCategoryItems(categoryName);
     }
 
-    public deleteItem(itemId: number, token: string): Promise<void> {
-        return this.databaseService.deleteItem(itemId, token);
+    public deleteItem(itemId: number, token: string, user_id: string): Promise<void> {
+        return this.databaseService.deleteItem(itemId, token, user_id);
     }
 
     public updateItem(item: any, token: string): Promise<void> {

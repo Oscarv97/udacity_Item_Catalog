@@ -116,7 +116,9 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
         try {
             let user = sessionStorage.getItem("AuthUser");
             let token = JSON.parse(user).stsTokenManager.accessToken;
-            const response = await this.props.dataServiceProvider.deleteItem(this.state.selection.id, token);
+            let userId = JSON.parse(user).uid;
+            console.log('uuid == ' + userId );
+            const response = await this.props.dataServiceProvider.deleteItem(this.state.selection.id, token, userId);
             if (response.ok) {
                 window.location.reload();
             } else {

@@ -86,8 +86,8 @@ export class DataBaseService implements IDataBaseService {
      * @returns {Promise<any>}
      * @memberof DataBaseService
      */
-    public deleteItem(itemId: number, token: string): Promise<any> {
-        return fetch(`/items/api/v1.0/games/${itemId}/delete/`, {
+    public deleteItem(itemId: number, token: string, user_id: string): Promise<any> {
+        return fetch(`/items/api/v1.0/games/${itemId}/delete/${user_id}/`, {
             method: "POST",
             credentials: "include",
             headers : {
