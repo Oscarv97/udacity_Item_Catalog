@@ -93,7 +93,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-clientSecrets.json
+# clientSecrets.json
 
 # Spyder project settings
 .spyderproject
