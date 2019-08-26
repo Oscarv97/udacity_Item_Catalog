@@ -75,14 +75,20 @@ def newGame():
 # Display a Specific Item
 @app.route('/items/api/v1.0/getgame/<path:category_name>/<path:item_id>/')
 def showItem(category_name, item_id):
-    item = session.query(Category).filter_by(category_name=category_name, 
-                                            name=item_id,).one()
+    item = session.query(CategoryItem).filter_by(id=item_id).one()
     return jsonify(item=[item.serialize])
+
+
+# Display all items in a category
+@app.route('/items/api/v1.0/categoryItems/<path:category_name>/')
+def showCategoryItems(category_name):
+    allGames = session.query(Category).filter_by(name=category_name).all()
+    return jsonify(allGames=[g.serialize for g in allGames])
 
 
 # Update Item
 @app.route('/items/api/v1.0/games/<int:item_id>/update/', methods=['POST'])
-def update_task(item_id):  
+def update_task(item_id):
     req_data = request.get_json(force=True)
     # Verify Firebase auth.
     # [START verify_token]
@@ -113,7 +119,7 @@ def update_task(item_id):
 @app.route('/items/api/v1.0/games/<int:item_id>/delete/', methods=['POST'])
 def delete_task(item_id):
     print(request.headers)
-     # Verify Firebase auth.
+    # Verify Firebase auth.
     # [START verify_token]
     id_token = request.headers['Authorization'].split(' ').pop()
     claims = google.oauth2.id_token.verify_firebase_token(
@@ -121,7 +127,7 @@ def delete_task(item_id):
     if not claims:
         return 'Unauthorized', 401
     # [END verify_token]
-    
+
     if request.method == 'POST':
         itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
         session.delete(itemToDelete)

@@ -12,7 +12,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
         let authUser = sessionStorage.getItem('AuthUser');
         this.newItem = { category: "", id: 1, category_id: 1, name: "", user: "", description: "", user_id: "0" };
         this.state = {
-            category: this.props.editItem ? this.props.editItem.category : "",
+            category: this.props.editItem ? this.props.editItem.category : "Action",
             description: this.props.editItem ? this.props.editItem.description : "",
             name: this.props.editItem ? this.props.editItem.name : "",
             user: JSON.parse(authUser) || undefined,
@@ -137,7 +137,7 @@ export default class NewItemForm extends React.Component<INewItemFormProps, INew
                                         <option>Adventure</option>
                                         <option>Racing</option>
                                         <option>MMO</option>
-                                        <option>Battle royal</option>
+                                        <option>BattleRoyal</option>
                                     </select>
                                 </div>
 

@@ -50,10 +50,10 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                     {
                         this.state.currentUser ?
                             <div className={"actionsBar"}>
-                                <button disabled={this.state.currentUser ? false : true} onClick={this.newItemForm}>Create new Item </button>
-                                <button disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
-                                <button disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
-                                <button disabled={this.state.selection === null || undefined} onClick={this.unSelect}>Clear Selection</button>
+                                <button className="btn btn-primary" disabled={this.state.currentUser ? false : true} onClick={this.newItemForm}>Create new Item </button>
+                                <button className="btn btn-primary" disabled={!this.state.selection!} onClick={this.deleteItem}>Delete Item</button>
+                                <button className="btn btn-primary" disabled={this.state.selection === null} onClick={this.openEdit}>Edit Item</button>
+                                <button className="btn btn-primary" disabled={this.state.selection === null || undefined} onClick={this.unSelect}>Clear Selection</button>
                             </div>
                             :
                             null
@@ -64,6 +64,7 @@ export default class Grid extends React.Component<IContentProps, IContentState> 
                         {this.state.items.map((currentItem, index) => {
                             return (<GridComponent
                                 key={currentItem.id}
+                                category={currentItem.category}
                                 id={currentItem.id}
                                 header={currentItem.name}
                                 description={currentItem.description}

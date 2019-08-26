@@ -1,5 +1,6 @@
 ﻿import * as  React from "react"
 import { IGridCardProps } from "./IGridCardProps";
+import { Link } from "react-router-dom";
 
 
 export interface IGridState {
@@ -31,7 +32,21 @@ export default class GridComponent extends React.Component<IGridCardProps, any> 
         <div className="card-body">
           <h5 className="card-title">{this.props.header}</h5>
           <p style={{ backgroundColor: color }} className="card-text">{this.props.description}</p>
+
+      {this.props.selection ?
+      <>
+
           <button onClick={this.props.selection.bind(this, this.props.index)} className="btn btn-primary">Select</button>
+            <Link to={`/item/${this.props.id}`}>
+            <button  className="btn btn-primary">
+              Learn more
+            </button>
+            </Link>
+      </>
+        :
+        null  
+        }
+
         </div>
       </div>
 

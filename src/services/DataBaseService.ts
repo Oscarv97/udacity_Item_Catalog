@@ -1,5 +1,6 @@
 import { IDataBaseService } from "./IDataBaseService";
 import { IInventoryItem } from "./IInventoryItem";
+import { isPromiseAlike } from "q";
 export class DataBaseService implements IDataBaseService {
 
     /**
@@ -33,19 +34,47 @@ export class DataBaseService implements IDataBaseService {
      * @memberof DataBaseService
      */
     public getItem(itemId: number, categoryName: string): Promise<any> {
-        return fetch(`/items/api/v1.0/getgame/${categoryName}/${itemId}/`,  {
-            headers :{
-                method: "GET",
-                mode: "no-cors",
-            },
-        }).then((response: Response) => {
-            if (!response.ok) {
-                this.handleResponseError(response);
-            }
-            return response.json();
-        }).catch((error: Error) => {
-            this.handleError(error)
-        });
+        return new Promise<any>((resolve, reject) => {
+           fetch(`/items/api/v1.0/getgame/${categoryName}/${itemId}/`,  {
+                headers :{
+                    method: "GET",
+                    mode: "no-cors",
+                },
+            }).then((response: Response) => {
+                if (!response.ok) {
+                    this.handleResponseError(response);
+                }
+                resolve(response.json());
+            }).catch((error: Error) => {
+                this.handleError(error)
+            });
+        })
+    }
+
+    /**
+     * Request arbitrary item from Database by
+     *
+     * @param {number} itemId
+     * @param {string} categoryName
+     * @returns {Promise<any>}
+     * @memberof DataBaseService
+     */
+    public getCategoryItems( categoryName: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+           fetch(`/items/api/v1.0/categoryItems/${categoryName}/`,  {
+                headers :{
+                    method: "GET",
+                    mode: "no-cors",
+                },
+            }).then((response: Response) => {
+                if (!response.ok) {
+                    this.handleResponseError(response);
+                }
+                resolve(response.json());
+            }).catch((error: Error) => {
+                this.handleError(error)
+            });
+        })
     }
 
 
@@ -138,7 +167,7 @@ export class DataBaseService implements IDataBaseService {
     }
 
     private handleError(error: Error) {
-        console.log(error.message);
+        console.log(error);
     }
 
 }

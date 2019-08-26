@@ -3,13 +3,14 @@ import "firebase/auth";
 import "firebase/firestore";
 import * as React from "react";
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization";
-import { HashRouter, Route, Switch } from "react-router-dom";
-import NewItemForm from "~Components/Content/newItemForm";
+import { HashRouter, Route, Switch, Link } from "react-router-dom";
 import Footer from "./Components/footer/footer";
 import { PageHeader } from "./Components/header/Header";
 import Home from "./Components/Pages/Home";
 import NoMatch from "./Components/Pages/NoMatch";
 import { IAppState } from "./IAppState";
+import SingleItem from "./Components/Pages/SingleItem";
+import CategoryItems from "./Components/Pages/CategoryItems";
 
 
 const authConfig = require("../clientSecrets.json");
@@ -57,8 +58,7 @@ export default class App extends React.Component<{}, IAppState> {
         this.oscarAuth.onAuthStateChanged(function (user) {
             if (user) {
                 sessionStorage.setItem('AuthUser', JSON.stringify(user));
-                // User is signed in.
-            }else{
+            } else {
                 sessionStorage.removeItem('AuthUser');
             }
         });
@@ -74,6 +74,7 @@ export default class App extends React.Component<{}, IAppState> {
             console.error('Failure to Sign in!', error);
         });
         // Force ReRender
+
         this.setState({});
 
     }
@@ -82,6 +83,7 @@ export default class App extends React.Component<{}, IAppState> {
         this.oscarAuth.signOut().then(() => {
             this.setState({ currentUser: undefined });
             sessionStorage.removeItem('AuthUser');
+            window.location.reload();
         }).catch((error: Error) => {
             console.error('Error while attempting to sign out user', error);
         })
@@ -110,13 +112,49 @@ export default class App extends React.Component<{}, IAppState> {
                             user={this.state.currentUser || null}
                         >
                         </PageHeader>
+
+                        <ul className="nav nav-tabs">
+                            <li className="nav-item">
+                                <Link to="/home">
+                                    <a className="nav-link active" href="#">All</a>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/items/Action/">
+                                    <a className="nav-link active" href="#">Action</a>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/items/Adventure/">
+                                    <a className="nav-link" href="#">Adventure</a>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/items/Racing/">
+                                    <a className="nav-link" href="#">Racing</a>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link  to="/items/MMO/">
+                                    <a className="nav-link" href="#">MMO</a>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/items/BattleRoyal/">
+                                    <a className="nav-link" href="#">Battle Royal</a>
+                                </Link>
+                            </li>
+
+                        </ul>
                     </div>
 
                     <Switch>
-
                         <Route exact path="/" component={Home} />
-
                         <Route exact path="/home" component={Home} />
+                        <Route path="/item/:id/" component={SingleItem} />
+
+                        {/* The below component does not detect url changes so doesn't know when to update when using another category link when it is already rendered */}
+                        <Route path="/items/:category/" component={CategoryItems} />
 
                         <Route component={NoMatch} />
 
