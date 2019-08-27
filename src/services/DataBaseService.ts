@@ -93,7 +93,7 @@ export class DataBaseService implements IDataBaseService {
             headers : {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             }
         }).then((response: any) => {
             if (!response.ok) {
@@ -119,7 +119,7 @@ export class DataBaseService implements IDataBaseService {
             headers : {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
@@ -148,7 +148,7 @@ export class DataBaseService implements IDataBaseService {
             headers : {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             },
             body: JSON.stringify(item)
         }).then((response: Response) => {
