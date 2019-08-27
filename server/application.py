@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 import google.auth.transport.requests
 import google.oauth2.id_token
 import requests_toolbelt.adapters.appengine
-from database_setup import Base, Category, CategoryItem, User
+from .database_setup import Base, Category, CategoryItem, User
 
 # Use the App Engine Requests adapter. This makes sure that Requests uses
 # URLFetch.

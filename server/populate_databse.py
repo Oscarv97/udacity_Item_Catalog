@@ -1,6 +1,6 @@
-from database_setup import User, Base, CategoryItem, Category
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from .database_setup import User, Base, CategoryItem, Category
 
 
 engine = create_engine('sqlite:///itemcatalog.db',
@@ -9,7 +9,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 user1 = User(
-    id=1,
+    id= "YmbtHXbERrUn2wbT3hD2JhZr3Mh2rm",
     name='Oscar',
     email='oscar.vial55@gmail.com',
     picture='iAmAnImage'
